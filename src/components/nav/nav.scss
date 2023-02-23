@@ -1,3 +1,11 @@
+@import '../../assets/vars';
+
 nav {
+  background: linear-gradient(
+    to bottom,
+    $dark-teal,
+    $downy-teal 20% 80%,
+    $dark-teal
+  );
   grid-area: nav;
 }
