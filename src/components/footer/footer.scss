@@ -1,5 +1,17 @@
 footer {
   padding: 8px 0;
-  text-align: center;
   grid-area: footer;
+  margin: 0 auto;
+
+  & small {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    & a {
+      display: inline-flex;
+      align-items: inherit;
+      gap: inherit;
+    }
+  }
 }
