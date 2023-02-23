@@ -32,6 +32,16 @@ ul {
   list-style: none;
 }
 
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  & img {
+    display: block;
+  }
+}
+
 a {
   color: inherit;
 }

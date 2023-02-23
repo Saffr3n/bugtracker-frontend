@@ -1,4 +1,38 @@
+@import '../../assets/vars';
+
+@font-face {
+  font-family: SyneMono;
+  src: url('../../assets/SyneMono.ttf');
+}
+
 header {
   padding: 8px 32px;
   grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & > * {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  & .logo span {
+    font-family: SyneMono, monospace;
+    font-size: 2rem;
+    text-decoration: underline;
+    cursor: default;
+  }
+
+  & .search input {
+    padding: 0 4px;
+  }
+
+  & .user-panel .menu {
+    width: 40px;
+    height: 40px;
+    border: 1px solid $light-teal;
+    border-radius: 50%;
+  }
 }
