@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from '../../assets/logo.svg';
-import searchIcon from '../../assets/icons/search.svg';
-import notificationsIcon from '../../assets/icons/notifications.svg';
+import Logo from '../../assets/logo.svg';
+import SearchIcon from '../../assets/icons/search.svg';
+import NotificationsIcon from '../../assets/icons/notifications.svg';
 import './header.scss';
 
 export default function Header() {
@@ -23,7 +23,7 @@ export default function Header() {
   return (
     <header>
       <div className="logo" aria-hidden="true">
-        <img src={logo} width="48" height="48" alt="" />
+        <Logo />
         <span className="hidden">BugTracker</span>
       </div>
 
@@ -36,18 +36,13 @@ export default function Header() {
           onBlur={onSearchBlur}
         />
         <button type="submit">
-          <img src={searchIcon} width="24" height="24" alt="Perform search" />
+          <SearchIcon aria-label="Perform search" />
         </button>
       </form>
 
       <div className="user-panel">
         <button type="button" aria-haspopup="menu" aria-expanded="false">
-          <img
-            src={notificationsIcon}
-            width="24"
-            height="24"
-            alt="Browse notifications"
-          />
+          <NotificationsIcon aria-label="Browse notifications" />
         </button>
         <button
           className="menu"

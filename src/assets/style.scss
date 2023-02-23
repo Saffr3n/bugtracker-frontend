@@ -37,11 +37,23 @@ button {
   background: none;
   cursor: pointer;
 
-  & img {
+  & svg {
     display: block;
   }
 }
 
 a {
   color: inherit;
+
+  &:hover,
+  &:focus {
+    color: teal;
+  }
+}
+
+button:hover svg,
+button:focus svg,
+a:hover svg,
+a:focus svg {
+  fill: teal;
 }

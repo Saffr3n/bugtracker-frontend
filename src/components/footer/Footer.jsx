@@ -1,5 +1,5 @@
 import React from 'react';
-import ghIcon from '../../assets/icons/github.svg';
+import GhIcon from '../../assets/icons/github.svg';
 import './footer.scss';
 
 export default function Footer() {
@@ -8,7 +8,7 @@ export default function Footer() {
       <small>
         Copyright &copy; 2023{' '}
         <a href="https://github.com/saffr3n" target="_blank" rel="noreferrer">
-          <img src={ghIcon} alt="Open authors GitHub" />
+          <GhIcon aria-label="Visit author's GitHub" />
           Saffr3n
         </a>
       </small>

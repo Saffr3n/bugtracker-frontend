@@ -45,7 +45,11 @@ module.exports = {
         ]
       },
       {
-        test: /\.(svg|png|jpe?g|gif)$/i,
+        test: /\.svg$/i,
+        use: ['@svgr/webpack']
+      },
+      {
+        test: /\.(png|jpe?g|gif|webp)$/i,
         type: 'asset/resource'
       },
       {
