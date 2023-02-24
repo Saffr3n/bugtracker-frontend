@@ -1,8 +1,8 @@
+@import 'normalize';
 @import 'vars';
 
 :root {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 16px;
 }
 
 * {
@@ -28,10 +28,6 @@ body {
     'footer footer';
 }
 
-ul {
-  list-style: none;
-}
-
 button {
   border: none;
   background: none;
@@ -49,6 +45,10 @@ a {
   &:focus {
     color: teal;
   }
+
+  &:active {
+    color: $pale-teal;
+  }
 }
 
 button:hover svg,
@@ -56,4 +56,9 @@ button:focus svg,
 a:hover svg,
 a:focus svg {
   fill: teal;
+}
+
+button:active svg,
+a:active svg {
+  fill: $pale-teal;
 }

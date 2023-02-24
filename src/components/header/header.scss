@@ -1,4 +1,4 @@
-@import '../../assets/vars';
+@import '../../assets/styles/vars';
 
 @font-face {
   font-family: SyneMono;
@@ -13,8 +13,8 @@ header {
   align-items: center;
 
   & > * {
-    display: flex;
-    align-items: center;
+    display: inherit;
+    align-items: inherit;
     gap: 8px;
   }
 
@@ -27,12 +27,30 @@ header {
 
   & .search input {
     padding: 0 4px;
+    border: none;
+    border-radius: 4px;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    background: $pale-teal;
+
+    &:focus {
+      outline-color: $light-teal;
+    }
   }
 
   & .user-panel .menu {
     width: 40px;
     height: 40px;
-    border: 1px solid $light-teal;
+    outline: 2px solid $light-teal;
     border-radius: 50%;
+
+    &:hover,
+    &:focus {
+      outline-color: teal;
+    }
+
+    &:active {
+      outline-color: $pale-teal;
+    }
   }
 }
