@@ -94,7 +94,7 @@ abbr[title] {
 
 b,
 strong {
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 /**
@@ -202,7 +202,7 @@ button,
 }
 
 /**
- * Remove the inner border and padding in Firefox.
+ * Remove the inner border in Firefox.
  */
 
 button::-moz-focus-inner,
@@ -210,7 +210,6 @@ button::-moz-focus-inner,
 [type='reset']::-moz-focus-inner,
 [type='submit']::-moz-focus-inner {
   border-style: none;
-  /* padding: 0; */
 }
 
 /**
@@ -221,30 +220,18 @@ button:-moz-focusring,
 [type='button']:-moz-focusring,
 [type='reset']:-moz-focusring,
 [type='submit']:-moz-focusring {
-  outline: 1px dotted ButtonText;
-}
-
-/**
- * Correct the padding in Firefox.
- */
-
-fieldset {
-  /* padding: 0.35em 0.75em 0.625em; */
+  outline: none;
 }
 
 /**
  * 1. Correct the text wrapping in Edge and IE.
  * 2. Correct the color inheritance from `fieldset` elements in IE.
- * 3. Remove the padding so developers are not caught out when they zero out
- *    `fieldset` elements in all browsers.
  */
 
 legend {
-  /* box-sizing: border-box; */ /* 1 */
   color: inherit; /* 2 */
   display: table; /* 1 */
   max-width: 100%; /* 1 */
-  /* padding: 0; */ /* 3 */
   white-space: normal; /* 1 */
 }
 
@@ -265,17 +252,6 @@ textarea {
 }
 
 /**
- * 1. Add the correct box sizing in IE 10.
- * 2. Remove the padding in IE 10.
- */
-
-[type='checkbox'],
-[type='radio'] {
-  /* box-sizing: border-box; */ /* 1 */
-  /* padding: 0; */ /* 2 */
-}
-
-/**
  * Correct the cursor style of increment and decrement buttons in Chrome.
  */
 
@@ -285,13 +261,11 @@ textarea {
 }
 
 /**
- * 1. Correct the odd appearance in Chrome and Safari.
- * 2. Correct the outline style in Safari.
+ * Correct the odd appearance in Chrome and Safari.
  */
 
 [type='search'] {
-  -webkit-appearance: textfield; /* 1 */
-  outline-offset: -2px; /* 2 */
+  -webkit-appearance: textfield;
 }
 
 /**

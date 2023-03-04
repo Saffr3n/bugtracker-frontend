@@ -1,0 +1,13 @@
+nav {
+  padding: 72px 32px;
+  background: linear-gradient(to bottom, $dark-teal, $downy-teal 20% 80%, $dark-teal);
+  grid-area: nav;
+
+  & ul {
+    list-style: none;
+
+    & li {
+      margin-bottom: 16px;
+    }
+  }
+}

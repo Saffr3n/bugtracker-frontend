@@ -1,0 +1,64 @@
+main {
+  padding: 0 8px;
+  border-radius: 8px 0 0 8px;
+  background: $pale-teal;
+  color: $dark-teal;
+  grid-area: main;
+
+  & h1 {
+    margin: 16px 0;
+    text-align: center;
+  }
+
+  & p {
+    margin-top: 8px;
+  }
+
+  & form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    & label {
+      display: inherit;
+      flex-direction: inherit;
+      gap: 2px;
+    }
+
+    & input:focus {
+      outline-color: teal;
+    }
+  }
+
+  & button:not(.svg) {
+    padding: 4px 16px;
+    font-weight: bold;
+    border: 1px solid;
+    border-radius: 4px;
+    background: $light-teal;
+
+    &:hover,
+    &:focus {
+      background: teal;
+    }
+
+    &:active {
+      background: $light-teal;
+    }
+  }
+
+  a {
+    color: $evening-sea;
+
+    &:hover,
+    &:focus {
+      text-decoration-color: transparent;
+    }
+
+    &:active {
+      color: $evening-sea;
+      text-decoration-color: currentColor;
+    }
+  }
+}

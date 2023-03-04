@@ -7,11 +7,5 @@ footer {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-
-    & a {
-      display: inline-flex;
-      align-items: inherit;
-      gap: inherit;
-    }
   }
 }

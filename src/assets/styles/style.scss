@@ -1,5 +1,10 @@
 @import 'normalize';
-@import 'vars';
+@import 'colors';
+@import 'header';
+@import 'nav';
+@import 'main';
+@import 'footer';
+@import 'sign';
 
 :root {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -13,12 +18,12 @@
 
 body {
   height: 100vh;
-  background: $dark-teal;
-  color: $light-teal;
 }
 
 #root {
   height: 100%;
+  background: $dark-teal;
+  color: $light-teal;
   display: grid;
   grid-template-columns: 1fr 5fr;
   grid-template-rows: auto 1fr auto;
@@ -28,26 +33,58 @@ body {
     'footer footer';
 }
 
+input {
+  padding: 0 4px;
+  color: $dark-teal;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  outline: 2px solid transparent;
+  outline-offset: 1px;
+}
+
 button {
-  border: none;
-  background: none;
   cursor: pointer;
 
-  & svg {
-    display: block;
+  &.svg {
+    border: none;
+    background: none;
+
+    & svg {
+      display: block;
+    }
   }
 }
 
 a {
-  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 
   &:hover,
   &:focus {
     color: teal;
   }
+}
+
+header a,
+nav a,
+footer a {
+  color: $light-teal;
 
   &:active {
     color: $pale-teal;
+  }
+}
+
+header a,
+nav a {
+  font-size: 1.2rem;
+  border-top: 1px solid transparent;
+
+  &.active {
+    color: $pale-teal;
+    border-color: currentColor;
+    text-decoration-color: transparent;
   }
 }
 
@@ -58,7 +95,9 @@ a:focus svg {
   fill: teal;
 }
 
-button:active svg,
-a:active svg {
+header button:active svg,
+nav a:active svg,
+nav a.active svg,
+footer a:active svg {
   fill: $pale-teal;
 }

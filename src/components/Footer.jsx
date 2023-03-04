@@ -1,6 +1,5 @@
 import React from 'react';
-import GhIcon from '../../assets/icons/github.svg';
-import './footer.scss';
+import GhIcon from '../assets/icons/github.svg';
 
 export default function Footer() {
   return (

@@ -1,0 +1,28 @@
+.sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & [role='alert'] {
+    display: none;
+    padding: 4px 16px;
+    border: 1px solid currentColor;
+    background: $pale-rose;
+    color: $milano-red;
+  }
+
+  & input.invalid {
+    border-color: $milano-red;
+    background: $pale-rose;
+  }
+
+  & label.invalid {
+    color: $milano-red;
+  }
+
+  & .hint {
+    font-size: 0.8rem;
+    color: $milano-red;
+    align-self: flex-end;
+  }
+}

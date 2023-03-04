@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter } from 'react-router-dom';
-import Header from './components/header/Header';
-import Nav from './components/nav/Nav';
-import Main from './components/main/Main';
-import Footer from './components/footer/Footer';
+import * as helpers from './helpers';
+import Header from './components/Header';
+import Nav from './components/Nav';
+import Main from './components/Main';
+import Footer from './components/Footer';
 import './assets/styles/style.scss';
 
 export default function App() {
-  return (
+  const [authorized, setAuthorized] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(helpers.apiHost, {
+        credentials: 'include'
+      });
+
+      setAuthorized(response.status === 200);
+    })();
+  }, []);
+
+  return authorized !== null ? (
     <HashRouter>
-      <Header />
-      <Nav />
-      <Main />
+      <Header authorized={authorized} />
+      <Nav authorized={authorized} />
+      <Main authorized={authorized} setAuthorized={setAuthorized} />
       <Footer />
     </HashRouter>
-  );
+  ) : null;
 }

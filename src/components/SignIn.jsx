@@ -1,0 +1,69 @@
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import * as helpers from '../helpers';
+
+export default function SignIn({ setAuthorized }) {
+  const pageTitle = 'Sign In';
+  useEffect(() => helpers.updateTitle(pageTitle));
+
+  const onSignIn = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(helpers.apiHost, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+      }),
+      credentials: 'include'
+    });
+
+    if (response.status !== 200) {
+      document.getElementById('password').value = '';
+      const data = await response.json();
+      const alert = document.querySelector('[role="alert"]');
+      alert.textContent = `${data.message}.`;
+      alert.style.display = 'block';
+      return;
+    }
+
+    setAuthorized(true);
+    window.location.assign('#/dashboard');
+  };
+
+  return (
+    <div className="sign">
+      <h1>{pageTitle}</h1>
+
+      <form onSubmit={onSignIn}>
+        <p role="alert" />
+
+        <label htmlFor="email">
+          Email
+          <input type="text" id="email" />
+        </label>
+
+        <label htmlFor="password">
+          Password
+          <input type="password" id="password" />
+        </label>
+
+        <button type="submit">Sign In</button>
+      </form>
+
+      <p>
+        Don&apos;t have an account yet?{' '}
+        <Link to="/signup" onClick={helpers.reactivateLinks}>
+          Sign up!
+        </Link>
+      </p>
+    </div>
+  );
+}
+SignIn.propTypes = {
+  setAuthorized: PropTypes.func.isRequired
+};

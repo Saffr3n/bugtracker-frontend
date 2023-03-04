@@ -11,5 +11,9 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    "no-param-reassign": "off",
+    "no-plusplus": "off",
+    "consistent-return": "off"
+  }
 }
