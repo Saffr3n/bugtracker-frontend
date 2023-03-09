@@ -16,16 +16,16 @@ export default function SignIn({ setAuthorized }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value
+        email: e.target.querySelector('#email').value,
+        password: e.target.querySelector('#password').value
       }),
       credentials: 'include'
     });
 
     if (response.status !== 200) {
-      document.getElementById('password').value = '';
+      e.target.querySelector('#password').value = '';
       const data = await response.json();
-      const alert = document.querySelector('[role="alert"]');
+      const alert = e.target.querySelector('p[role="alert"]');
       alert.textContent = `${data.message}.`;
       alert.style.display = 'block';
       return;

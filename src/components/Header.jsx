@@ -18,7 +18,7 @@ export default function Header({ authorized }) {
   const onSearchSubmit = (e) => {
     e.preventDefault();
     helpers.deactivateLinks();
-    const searchQuery = e.target.childNodes[0].value;
+    const searchQuery = e.target.querySelector('input').value;
     const url = `#/search?q=${searchQuery}`;
     window.location.assign(url);
   };

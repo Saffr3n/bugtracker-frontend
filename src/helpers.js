@@ -2,7 +2,6 @@ export const apiHost = 'http://localhost:3000';
 
 export const updateTitle = (pageTitle) => {
   const globalTitle = document.title.slice(document.title.indexOf('BugTracker'));
-
   document.title = `${pageTitle} - ${globalTitle}`;
 };
 

@@ -11,15 +11,15 @@ export default function SignUp({ setAuthorized }) {
 
     const inputs = {};
     [inputs.email, inputs.password, inputs.confirm, inputs.first, inputs.last] =
-      document.querySelectorAll('.sign input');
+      e.target.querySelectorAll('input');
 
     const labels = {};
     [labels.email, labels.password, labels.confirm, labels.first, labels.last] =
-      document.querySelectorAll('.sign label');
+      e.target.querySelectorAll('label');
 
     const hints = {};
     [hints.email, hints.password, hints.confirm, hints.first, hints.last] =
-      document.querySelectorAll('.sign .hint');
+      e.target.querySelectorAll('.hint');
 
     for (let i = 0, l = Object.keys(inputs).length; i < l; i++) {
       const key = Object.keys(inputs)[i];
@@ -55,7 +55,7 @@ export default function SignUp({ setAuthorized }) {
     if (response.status !== 200) {
       const data = await response.json();
 
-      const alert = document.querySelector('[role="alert"]');
+      const alert = e.target.querySelector('p[role="alert"]');
       if (data.message.includes('User')) {
         alert.textContent = 'User with provided email already exists.';
         alert.style.display = 'block';
@@ -72,7 +72,7 @@ export default function SignUp({ setAuthorized }) {
         hints[source].textContent = err;
       });
 
-      document.querySelector('.invalid').focus();
+      e.target.querySelector('.invalid').focus();
       return;
     }
 

@@ -12,10 +12,7 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(helpers.apiHost, {
-        credentials: 'include'
-      });
-
+      const response = await fetch(helpers.apiHost, { credentials: 'include' });
       setAuthorized(response.status === 200);
     })();
   }, []);
