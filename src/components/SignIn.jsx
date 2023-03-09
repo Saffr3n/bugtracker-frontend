@@ -12,9 +12,7 @@ export default function SignIn({ setAuthorized }) {
 
     const response = await fetch(helpers.apiHost, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: e.target.querySelector('#email').value,
         password: e.target.querySelector('#password').value
@@ -41,17 +39,14 @@ export default function SignIn({ setAuthorized }) {
 
       <form onSubmit={onSignIn}>
         <p role="alert" />
-
         <label htmlFor="email">
           Email
           <input type="text" id="email" />
         </label>
-
         <label htmlFor="password">
           Password
           <input type="password" id="password" />
         </label>
-
         <button type="submit">Sign In</button>
       </form>
 

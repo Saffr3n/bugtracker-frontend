@@ -16,13 +16,11 @@ export default function Nav({ authorized }) {
                 Dashboard
               </Link>
             </li>
-
             <li>
               <Link to="/projects" onClick={helpers.reactivateLinks}>
                 Projects
               </Link>
             </li>
-
             <li>
               <Link to="/tickets" onClick={helpers.reactivateLinks}>
                 Tickets
@@ -33,14 +31,13 @@ export default function Nav({ authorized }) {
           <>
             <li>
               <Link to="/signin" className="active" onClick={helpers.reactivateLinks}>
-                <SignInIcon />
+                <SignInIcon role="none" />
                 Sign In
               </Link>
             </li>
-
             <li>
               <Link to="/signup" onClick={helpers.reactivateLinks}>
-                <SignUpIcon />
+                <SignUpIcon role="none" />
                 Sign Up
               </Link>
             </li>

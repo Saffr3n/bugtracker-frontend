@@ -10,16 +10,13 @@ export default function SignUp({ setAuthorized }) {
     e.preventDefault();
 
     const inputs = {};
-    [inputs.email, inputs.password, inputs.confirm, inputs.first, inputs.last] =
-      e.target.querySelectorAll('input');
+    [inputs.email, inputs.password, inputs.confirm, inputs.first, inputs.last] = e.target.querySelectorAll('input');
 
     const labels = {};
-    [labels.email, labels.password, labels.confirm, labels.first, labels.last] =
-      e.target.querySelectorAll('label');
+    [labels.email, labels.password, labels.confirm, labels.first, labels.last] = e.target.querySelectorAll('label');
 
     const hints = {};
-    [hints.email, hints.password, hints.confirm, hints.first, hints.last] =
-      e.target.querySelectorAll('.hint');
+    [hints.email, hints.password, hints.confirm, hints.first, hints.last] = e.target.querySelectorAll('.hint');
 
     for (let i = 0, l = Object.keys(inputs).length; i < l; i++) {
       const key = Object.keys(inputs)[i];
@@ -40,9 +37,7 @@ export default function SignUp({ setAuthorized }) {
 
     const response = await fetch(`${helpers.apiHost}/users`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: inputs.email.value,
         password: inputs.password.value,
@@ -89,61 +84,31 @@ export default function SignUp({ setAuthorized }) {
 
         <label htmlFor="email">
           Email
-          <input
-            type="email"
-            id="email"
-            aria-required
-            aria-invalid="false"
-            aria-describedby="email-hint"
-          />
+          <input type="email" id="email" aria-required aria-invalid="false" aria-describedby="email-hint" />
         </label>
         <span className="hint" id="email-hint" />
 
         <label htmlFor="password">
           Password
-          <input
-            type="password"
-            id="password"
-            aria-required
-            aria-invalid="false"
-            aria-describedby="password-hint"
-          />
+          <input type="password" id="password" aria-required aria-invalid="false" aria-describedby="password-hint" />
         </label>
         <span className="hint" id="password-hint" />
 
         <label htmlFor="confirm">
           Confirm password
-          <input
-            type="password"
-            id="confirm"
-            aria-required
-            aria-invalid="false"
-            aria-describedby="confirm-hint"
-          />
+          <input type="password" id="confirm" aria-required aria-invalid="false" aria-describedby="confirm-hint" />
         </label>
         <span className="hint" id="confirm-hint" />
 
         <label htmlFor="first-name">
           First name
-          <input
-            type="text"
-            id="first-name"
-            aria-required
-            aria-invalid="false"
-            aria-describedby="first-name-hint"
-          />
+          <input type="text" id="first-name" aria-required aria-invalid="false" aria-describedby="first-name-hint" />
         </label>
         <span className="hint" id="first-name-hint" />
 
         <label htmlFor="last-name">
           Last name
-          <input
-            type="text"
-            id="last-name"
-            aria-required
-            aria-invalid="false"
-            aria-describedby="last-name-hint"
-          />
+          <input type="text" id="last-name" aria-required aria-invalid="false" aria-describedby="last-name-hint" />
         </label>
         <span className="hint" id="last-name-hint" />
 

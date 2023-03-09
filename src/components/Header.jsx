@@ -33,45 +33,25 @@ export default function Header({ authorized }) {
       {authorized ? (
         <>
           <form onSubmit={onSearchSubmit} role="search" noValidate>
-            <input
-              type="search"
-              placeholder="Search..."
-              onFocus={onSearchFocus}
-              onBlur={onSearchBlur}
-              aria-label="Search"
-            />
-
+            <input type="search" placeholder="Search..." onFocus={onSearchFocus} onBlur={onSearchBlur} aria-label="Search" />
             <button type="submit" className="svg">
               <SearchIcon aria-label="Perform search" />
             </button>
           </form>
 
           <div>
-            <button
-              type="button"
-              className="svg"
-              aria-haspopup="menu"
-              aria-expanded="false"
-            >
+            <button type="button" className="svg" aria-haspopup="menu" aria-expanded="false">
               <NotificationsIcon aria-label="Browse notifications" />
             </button>
-
-            <button
-              type="button"
-              className="user"
-              aria-label="Open user menu"
-              aria-haspopup="true"
-              aria-expanded="false"
-            />
+            <button type="button" className="user" aria-label="Open the user menu" aria-haspopup="true" aria-expanded="false" />
           </div>
         </>
       ) : (
-        <div>
-          <Link to="/signin" className="active" onClick={helpers.reactivateLinks}>
+        <div aria-hidden="true">
+          <Link to="/signin" className="active" onClick={helpers.reactivateLinks} tabIndex="-1">
             Sign In
           </Link>
-
-          <Link to="/signup" onClick={helpers.reactivateLinks}>
+          <Link to="/signup" onClick={helpers.reactivateLinks} tabIndex="-1">
             Sign Up
           </Link>
         </div>
