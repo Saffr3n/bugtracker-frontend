@@ -42,4 +42,18 @@ header {
       outline-color: $pale-teal;
     }
   }
+
+  & .user-menu {
+    display: none;
+    position: absolute;
+    top: 64px;
+    padding: 8px;
+    border: 1px solid;
+    background: white;
+    color: $dark-teal;
+
+    & ul {
+      list-style: none;
+    }
+  }
 }

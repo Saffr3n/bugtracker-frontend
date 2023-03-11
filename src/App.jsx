@@ -19,7 +19,7 @@ export default function App() {
 
   return authorized !== null ? (
     <HashRouter>
-      <Header authorized={authorized} />
+      <Header authorized={authorized} setAuthorized={setAuthorized} />
       <Nav authorized={authorized} />
       <Main authorized={authorized} setAuthorized={setAuthorized} />
       <Footer />

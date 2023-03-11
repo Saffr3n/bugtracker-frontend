@@ -18,7 +18,8 @@ export const deactivateLinks = () => {
 export const reactivateLinks = (e) => {
   deactivateLinks();
 
-  const relUrl = e.target.href.split(e.target.host)[1].slice(1);
+  const target = e.target.tagName === 'A' ? e.target : e.target.parentNode;
+  const relUrl = target.href.split(target.host)[1].slice(1);
   const clickedLinks = document.querySelectorAll(`a[href="${relUrl}"]`);
 
   if (clickedLinks.length > 0) {

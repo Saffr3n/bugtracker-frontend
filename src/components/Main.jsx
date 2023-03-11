@@ -19,6 +19,7 @@ export default function Main({ authorized, setAuthorized }) {
         ) : (
           <>
             <Route path="/" element={<Navigate to="/signin" />} />
+            <Route path="/signout" element={<Navigate to="/signin" />} />
             <Route path="/signin" element={<SignIn setAuthorized={setAuthorized} />} />
             <Route path="/signup" element={<SignUp setAuthorized={setAuthorized} />} />
           </>

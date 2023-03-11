@@ -6,7 +6,7 @@ import Logo from '../assets/logo.svg';
 import SearchIcon from '../assets/icons/search.svg';
 import NotificationsIcon from '../assets/icons/notifications.svg';
 
-export default function Header({ authorized }) {
+export default function Header({ authorized, setAuthorized }) {
   const onSearchFocus = (e) => {
     e.target.placeholder = '';
   };
@@ -21,6 +21,42 @@ export default function Header({ authorized }) {
     const searchQuery = e.target.querySelector('input').value;
     const url = `#/search?q=${searchQuery}`;
     window.location.assign(url);
+  };
+
+  const userMenuClickHandler = (e) => {
+    const clickedUserMenu = (target) => {
+      if (!target || !target.classList) return false;
+      if (target.classList.contains('user-menu')) return true;
+      return clickedUserMenu(target.parentNode);
+    };
+    if (clickedUserMenu(e.target)) return;
+
+    document.querySelector('.user').setAttribute('aria-expanded', false);
+    document.querySelector('.user-menu').style.display = 'none';
+    document.removeEventListener('click', userMenuClickHandler);
+  };
+
+  const onUserBtnClick = (e) => {
+    e.stopPropagation();
+    const expanded = JSON.parse(e.target.getAttribute('aria-expanded'));
+    e.target.setAttribute('aria-expanded', !expanded);
+
+    if (expanded) {
+      document.querySelector('.user-menu').style.display = 'none';
+      document.removeEventListener('click', userMenuClickHandler);
+    } else {
+      document.querySelector('.user-menu').style.display = 'block';
+      document.addEventListener('click', userMenuClickHandler);
+    }
+  };
+
+  const onSignOut = async () => {
+    document.removeEventListener('click', userMenuClickHandler);
+    await fetch(helpers.apiHost, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+    setAuthorized(false);
   };
 
   return (
@@ -40,10 +76,22 @@ export default function Header({ authorized }) {
           </form>
 
           <div>
-            <button type="button" className="svg" aria-haspopup="menu" aria-expanded="false">
+            <button type="button" className="svg" aria-haspopup="true" aria-expanded="false">
               <NotificationsIcon aria-label="Browse notifications" />
             </button>
-            <button type="button" className="user" aria-label="Open the user menu" aria-haspopup="true" aria-expanded="false" />
+            <button type="button" className="user" onClick={onUserBtnClick} aria-label="Open the user menu" aria-haspopup="true" aria-expanded="false" />
+            <div className="user-menu">
+              <ul>
+                <li>Some</li>
+                <li>Stuff</li>
+                <li>Here</li>
+                <li>
+                  <Link to="/signout" onClick={onSignOut}>
+                    Sign Out
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </>
       ) : (
@@ -60,5 +108,6 @@ export default function Header({ authorized }) {
   );
 }
 Header.propTypes = {
-  authorized: PropTypes.bool.isRequired
+  authorized: PropTypes.bool.isRequired,
+  setAuthorized: PropTypes.func.isRequired
 };

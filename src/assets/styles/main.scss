@@ -47,18 +47,4 @@ main {
       background: $light-teal;
     }
   }
-
-  a {
-    color: $evening-sea;
-
-    &:hover,
-    &:focus {
-      text-decoration-color: transparent;
-    }
-
-    &:active {
-      color: $evening-sea;
-      text-decoration-color: currentColor;
-    }
-  }
 }

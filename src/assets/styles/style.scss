@@ -69,24 +69,24 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+header > div > a,
+nav a,
+footer a {
+  color: $light-teal;
 
   &:hover,
   &:focus {
     color: teal;
   }
-}
-
-header a,
-nav a,
-footer a {
-  color: $light-teal;
 
   &:active {
     color: $pale-teal;
   }
 }
 
-header a,
+header > div > a,
 nav a {
   font-size: 1.2rem;
   border-top: 1px solid transparent;
@@ -95,6 +95,22 @@ nav a {
     color: $pale-teal;
     border-color: currentColor;
     text-decoration-color: transparent;
+  }
+}
+
+main a,
+.user-menu a {
+  color: $evening-sea;
+
+  &:hover,
+  &:focus {
+    color: teal;
+    text-decoration-color: transparent;
+  }
+
+  &:active {
+    color: $evening-sea;
+    text-decoration-color: currentColor;
   }
 }
 
