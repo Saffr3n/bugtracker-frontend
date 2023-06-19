@@ -8,20 +8,25 @@ import Footer from './components/Footer';
 import './assets/styles/style.scss';
 
 export default function App() {
-  const [authorized, setAuthorized] = useState(null);
+  const [status, setStatus] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(helpers.apiHost, { credentials: 'include' });
-      setAuthorized(response.status === 200);
+      try {
+        const response = await fetch(helpers.apiHost, { credentials: 'include' });
+        setStatus(response.status);
+      }
+      catch {
+        setStatus(500);
+      }
     })();
   }, []);
 
-  return authorized !== null ? (
+  return status !== null ? (
     <HashRouter>
-      <Header authorized={authorized} setAuthorized={setAuthorized} />
-      <Nav authorized={authorized} />
-      <Main authorized={authorized} setAuthorized={setAuthorized} />
+      <Header status={status} setStatus={setStatus} />
+      {status !== 500 ? (<Nav status={status} />) : null}
+      <Main status={status} setStatus={setStatus} />
       <Footer />
     </HashRouter>
   ) : null;

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as helpers from '../helpers';
 
-export default function SignIn({ setAuthorized }) {
+export default function SignIn({ setStatus }) {
   const pageTitle = 'Sign In';
   useEffect(() => helpers.updateTitle(pageTitle));
 
@@ -29,7 +29,7 @@ export default function SignIn({ setAuthorized }) {
       return;
     }
 
-    setAuthorized(true);
+    setStatus(200);
     window.location.assign('#/dashboard');
   };
 
@@ -60,5 +60,5 @@ export default function SignIn({ setAuthorized }) {
   );
 }
 SignIn.propTypes = {
-  setAuthorized: PropTypes.func.isRequired
+  setStatus: PropTypes.func.isRequired
 };

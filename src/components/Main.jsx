@@ -4,31 +4,35 @@ import PropTypes from 'prop-types';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 
-export default function Main({ authorized, setAuthorized }) {
+export default function Main({ status, setStatus }) {
   return (
     <main>
-      <Routes>
-        {authorized ? (
-          <>
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-            <Route path="/search" element={<h1>Search</h1>} />
-            <Route path="/dashboard" element={<h1>Dashboard</h1>} />
-            <Route path="/projects" element={<h1>Projects</h1>} />
-            <Route path="/tickets" element={<h1>Tickets</h1>} />
-          </>
-        ) : (
-          <>
-            <Route path="/" element={<Navigate to="/signin" />} />
-            <Route path="/signout" element={<Navigate to="/signin" />} />
-            <Route path="/signin" element={<SignIn setAuthorized={setAuthorized} />} />
-            <Route path="/signup" element={<SignUp setAuthorized={setAuthorized} />} />
-          </>
-        )}
-      </Routes>
+      {status === 500 ? (
+        <h1>Server Error</h1>
+      ) : (
+        <Routes>
+          {status === 200 ? (
+            <>
+              <Route path="/" element={<Navigate to="/dashboard" />} />
+              <Route path="/search" element={<h1>Search</h1>} />
+              <Route path="/dashboard" element={<h1>Dashboard</h1>} />
+              <Route path="/projects" element={<h1>Projects</h1>} />
+              <Route path="/tickets" element={<h1>Tickets</h1>} />
+            </>
+          ) : (
+            <>
+              <Route path="/" element={<Navigate to="/signin" />} />
+              <Route path="/signout" element={<Navigate to="/signin" />} />
+              <Route path="/signin" element={<SignIn setStatus={setStatus} />} />
+              <Route path="/signup" element={<SignUp setStatus={setStatus} />} />
+            </>
+          )}
+        </Routes>
+      )}
     </main>
   );
 }
 Main.propTypes = {
-  authorized: PropTypes.bool.isRequired,
-  setAuthorized: PropTypes.func.isRequired
+  status: PropTypes.number.isRequired,
+  setStatus: PropTypes.func.isRequired
 };

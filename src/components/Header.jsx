@@ -6,7 +6,7 @@ import Logo from '../assets/logo.svg';
 import SearchIcon from '../assets/icons/search.svg';
 import NotificationsIcon from '../assets/icons/notifications.svg';
 
-export default function Header({ authorized, setAuthorized }) {
+export default function Header({ status, setStatus }) {
   const onSearchFocus = (e) => {
     e.target.placeholder = '';
   };
@@ -56,7 +56,7 @@ export default function Header({ authorized, setAuthorized }) {
       method: 'DELETE',
       credentials: 'include'
     });
-    setAuthorized(false);
+    setStatus(400);
   };
 
   return (
@@ -66,48 +66,52 @@ export default function Header({ authorized, setAuthorized }) {
         <span>BugTracker</span>
       </div>
 
-      {authorized ? (
-        <>
-          <form onSubmit={onSearchSubmit} role="search" noValidate>
-            <input type="search" placeholder="Search..." onFocus={onSearchFocus} onBlur={onSearchBlur} aria-label="Search" />
-            <button type="submit" className="svg">
-              <SearchIcon aria-label="Perform search" />
-            </button>
-          </form>
-
-          <div>
-            <button type="button" className="svg" aria-haspopup="true" aria-expanded="false">
-              <NotificationsIcon aria-label="Browse notifications" />
-            </button>
-            <button type="button" className="user" onClick={onUserBtnClick} aria-label="Open the user menu" aria-haspopup="true" aria-expanded="false" />
-            <div className="user-menu">
-              <ul>
-                <li>Some</li>
-                <li>Stuff</li>
-                <li>Here</li>
-                <li>
-                  <Link to="/signout" onClick={onSignOut}>
-                    Sign Out
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </>
+      {status === 500 ? (
+        null
       ) : (
-        <div aria-hidden="true">
-          <Link to="/signin" className="active" onClick={helpers.reactivateLinks} tabIndex="-1">
-            Sign In
-          </Link>
-          <Link to="/signup" onClick={helpers.reactivateLinks} tabIndex="-1">
-            Sign Up
-          </Link>
-        </div>
+        status === 200 ? (
+          <>
+            <form onSubmit={onSearchSubmit} role="search" noValidate>
+              <input type="search" placeholder="Search..." onFocus={onSearchFocus} onBlur={onSearchBlur} aria-label="Search" />
+              <button type="submit" className="svg">
+                <SearchIcon aria-label="Perform search" />
+              </button>
+            </form>
+  
+            <div>
+              <button type="button" className="svg" aria-haspopup="true" aria-expanded="false">
+                <NotificationsIcon aria-label="Browse notifications" />
+              </button>
+              <button type="button" className="user" onClick={onUserBtnClick} aria-label="Open the user menu" aria-haspopup="true" aria-expanded="false" />
+              <div className="user-menu">
+                <ul>
+                  <li>Some</li>
+                  <li>Stuff</li>
+                  <li>Here</li>
+                  <li>
+                    <Link to="/signout" onClick={onSignOut}>
+                      Sign Out
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div aria-hidden="true">
+            <Link to="/signin" className="active" onClick={helpers.reactivateLinks} tabIndex="-1">
+              Sign In
+            </Link>
+            <Link to="/signup" onClick={helpers.reactivateLinks} tabIndex="-1">
+              Sign Up
+            </Link>
+          </div>
+        )
       )}
     </header>
   );
 }
 Header.propTypes = {
-  authorized: PropTypes.bool.isRequired,
-  setAuthorized: PropTypes.func.isRequired
+  status: PropTypes.number.isRequired,
+  setStatus: PropTypes.func.isRequired
 };

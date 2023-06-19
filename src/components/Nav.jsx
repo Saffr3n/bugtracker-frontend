@@ -5,11 +5,11 @@ import * as helpers from '../helpers';
 import SignInIcon from '../assets/icons/signin.svg';
 import SignUpIcon from '../assets/icons/signup.svg';
 
-export default function Nav({ authorized }) {
+export default function Nav({ status }) {
   return (
     <nav>
       <ul>
-        {authorized ? (
+        {status === 200 ? (
           <>
             <li>
               <Link to="/dashboard" className="active" onClick={helpers.reactivateLinks}>
@@ -48,5 +48,5 @@ export default function Nav({ authorized }) {
   );
 }
 Nav.propTypes = {
-  authorized: PropTypes.bool.isRequired
+  status: PropTypes.number.isRequired
 };

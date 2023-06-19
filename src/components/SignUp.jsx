@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as helpers from '../helpers';
 
-export default function SignUp({ setAuthorized }) {
+export default function SignUp({ setStatus }) {
   const pageTitle = 'Sign Up';
   useEffect(() => helpers.updateTitle(pageTitle));
 
@@ -71,7 +71,7 @@ export default function SignUp({ setAuthorized }) {
       return;
     }
 
-    setAuthorized(true);
+    setStatus(200);
     window.location.assign('#/dashboard');
   };
 
@@ -118,5 +118,5 @@ export default function SignUp({ setAuthorized }) {
   );
 }
 SignUp.propTypes = {
-  setAuthorized: PropTypes.func.isRequired
+  setStatus: PropTypes.func.isRequired
 };
