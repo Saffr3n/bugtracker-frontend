@@ -3,7 +3,7 @@ import GhIcon from '../assets/icons/github.svg';
 
 export default function Footer() {
   return (
-    <footer>
+    <footer data-testid="footer">
       <small>
         Copyright &copy; 2023
         <span className="visually-hidden">Saffren.</span>

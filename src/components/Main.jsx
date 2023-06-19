@@ -6,7 +6,7 @@ import SignUp from './SignUp';
 
 export default function Main({ status, setStatus }) {
   return (
-    <main>
+    <main data-testid="main">
       {status === 500 ? (
         <h1>Server Error</h1>
       ) : (

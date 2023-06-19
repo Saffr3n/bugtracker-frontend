@@ -7,7 +7,7 @@ import SignUpIcon from '../assets/icons/signup.svg';
 
 export default function Nav({ status }) {
   return (
-    <nav>
+    <nav data-testid="nav">
       <ul>
         {status === 200 ? (
           <>

@@ -60,7 +60,7 @@ export default function Header({ status, setStatus }) {
   };
 
   return (
-    <header>
+    <header data-testid="header">
       <div aria-hidden="true">
         <Logo />
         <span>BugTracker</span>
