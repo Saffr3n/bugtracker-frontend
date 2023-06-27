@@ -8,7 +8,10 @@ export default function Main({ status, setStatus }) {
   return (
     <main data-testid="main">
       {status === 500 ? (
-        <h1>Server Error</h1>
+        <>
+          <h1>Server Error</h1>
+          <p style={{ textAlign: 'center' }}>Please try again later.</p>
+        </>
       ) : (
         <Routes>
           {status === 200 ? (

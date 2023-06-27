@@ -64,8 +64,9 @@
   ],
   "jest": {
     "testEnvironment": "jsdom",
+    "snapshotResolver": "<rootDir>/snapshotResolver.js",
     "moduleNameMapper": {
-      "\\.(scss|svg)$": "<rootDir>/src/emptyExport.js"
+      "\\.(scss|svg)$": "<rootDir>/emptyExport.js"
     }
   }
 }
