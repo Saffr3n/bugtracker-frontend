@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Server is offline Footer is rendered properly 1`] = `
+exports[`User is unauthorized Footer is rendered properly 1`] = `
 <footer
   data-testid="footer"
 >
