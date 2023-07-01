@@ -22,12 +22,7 @@ beforeEach(async () => {
 
 describe('User is unauthorized', () => {
   beforeAll(() => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        status: 401,
-        json: () => ({ message: 'Incorrect email or password' })
-      })
-    );
+    global.fetch = jest.fn(() => Promise.resolve({ status: 401 }));
   });
 
   describe('Header', () => {
@@ -58,7 +53,21 @@ describe('User is unauthorized', () => {
     test('is loaded', () => {
       expect(main).toBeDefined();
     });
+
     describe('Sign In route', () => {
+      beforeAll(() => {
+        global.fetch = jest.fn(() =>
+          Promise.resolve({
+            status: 400,
+            json: () => ({ message: 'Incorrect email or password' })
+          })
+        );
+      });
+
+      beforeEach(async () => {
+        fireEvent.click(within(nav).getByText('Sign In'));
+      });
+
       test('has 1 child, which has 3 children', () => {
         expect(main.childElementCount).toEqual(1);
         expect(main.firstChild.childElementCount).toEqual(3);
@@ -80,17 +89,79 @@ describe('User is unauthorized', () => {
         const button = within(main).getByRole('button');
         expect(within(button).getByText('Sign In')).toBeDefined();
       });
-      test('has "Sign Up" link', () => {
+      test('has "Sign up!" link', () => {
         expect(within(main).getByText('Sign up!')).toBeDefined();
       });
-      test('shows "Incorrect email or password" warning on unsuccessful login attempt', async () => {
+      test('shows "Incorrect email or password" alert on unsuccessful login attempt', async () => {
         expect(within(main).queryByText('Incorrect email or password.')).toBeNull();
-        const button = within(main).getByRole('button');
-        fireEvent(button, new MouseEvent('click'));
+        const loginButton = within(main).getByRole('button');
+        fireEvent.click(loginButton);
         expect(await within(main).findByText('Incorrect email or password.')).toBeDefined();
       });
     });
-    describe('Sign Up route', () => {});
+
+    describe('Sign Up route', () => {
+      beforeAll(() => {
+        global.fetch = jest.fn(() =>
+          Promise.resolve({
+            status: 400,
+            json: () => ({ message: 'Email is required. Password is required. First name is required. Last name is required' })
+          })
+        );
+      });
+
+      beforeEach(async () => {
+        fireEvent.click(within(nav).getByText('Sign Up'));
+      });
+
+      test('has 1 child, which has 2 children', () => {
+        expect(main.childElementCount).toEqual(1);
+        expect(main.firstChild.childElementCount).toEqual(2);
+      });
+      test('has "Sign Up" heading', () => {
+        const heading = within(main).getByRole('heading');
+        expect(within(heading).getByText('Sign Up')).toBeDefined();
+      });
+      test('has 3 text inputs (excluding password fields)', () => {
+        expect(within(main).getAllByRole('textbox').length).toEqual(3);
+      });
+      test('has "Email" form field', () => {
+        expect(within(main).getByLabelText('Email')).toBeDefined();
+      });
+      test('has "Password" form field', () => {
+        expect(within(main).getByLabelText('Password')).toBeDefined();
+      });
+      test('has "Confirm password" form field', () => {
+        expect(within(main).getByLabelText('Confirm password')).toBeDefined();
+      });
+      test('has "First name" form field', () => {
+        expect(within(main).getByLabelText('First name')).toBeDefined();
+      });
+      test('has "Last name" form field', () => {
+        expect(within(main).getByLabelText('Last name')).toBeDefined();
+      });
+      test('has "Sign Up" button', () => {
+        const button = within(main).getByRole('button');
+        expect(within(button).getByText('Sign Up')).toBeDefined();
+      });
+      test('shows API alerts on unsuccessful register attempt', async () => {
+        expect(within(main).queryByText('Email is required')).toBeNull();
+        const registerButton = within(main).getByRole('button');
+        fireEvent.click(registerButton);
+        expect(await within(main).findByText('Email is required')).toBeDefined();
+        expect(await within(main).findByText('Password is required')).toBeDefined();
+        expect(await within(main).findByText('First name is required')).toBeDefined();
+        expect(await within(main).findByText('Last name is required')).toBeDefined();
+      });
+      test('shows "Passwords don\'t match" alert when needed', async () => {
+        expect(within(main).queryByText("Passwords don't match")).toBeNull();
+        const passwordInput = within(main).getByLabelText('Password');
+        const registerButton = within(main).getByRole('button');
+        fireEvent.input(passwordInput, { target: { value: 'any' } });
+        fireEvent.click(registerButton);
+        expect(await within(main).findByText("Passwords don't match")).toBeDefined();
+      });
+    });
   });
 
   describe('Footer', () => {
