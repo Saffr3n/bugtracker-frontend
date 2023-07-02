@@ -8,20 +8,19 @@ export const updateTitle = (pageTitle) => {
 export const deactivateLinks = () => {
   const activeLinks = document.querySelectorAll('.active');
 
-  if (activeLinks.length > 0) {
+  if (activeLinks.length) {
     activeLinks.forEach((link) => {
       link.classList.remove('active');
     });
   }
 };
 
-export const reactivateLinks = (e) => {
-  deactivateLinks();
-  const relUrl = e.currentTarget.href.split(e.currentTarget.host)[1].slice(1);
-  const clickedLinks = document.querySelectorAll(`a[href="${relUrl}"]`);
+export const activateLinks = () => {
+  const { hash } = window.location;
+  const activeLinks = document.querySelectorAll(`a[href="${hash}"]`);
 
-  if (clickedLinks.length > 0) {
-    clickedLinks.forEach((link) => {
+  if (activeLinks.length) {
+    activeLinks.forEach((link) => {
       link.classList.add('active');
     });
   }

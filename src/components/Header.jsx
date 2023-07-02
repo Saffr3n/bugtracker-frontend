@@ -17,7 +17,6 @@ export default function Header({ status, setStatus }) {
 
   const onSearchSubmit = (e) => {
     e.preventDefault();
-    helpers.deactivateLinks();
     const searchQuery = e.target.querySelector('input').value;
     const url = `#/search?q=${searchQuery}`;
     window.location.assign(url);
@@ -57,6 +56,7 @@ export default function Header({ status, setStatus }) {
       credentials: 'include'
     });
     setStatus(400);
+    window.location.assign('#/signin');
   };
 
   return (
@@ -96,10 +96,10 @@ export default function Header({ status, setStatus }) {
         </>
       ) : (
         <div aria-hidden="true">
-          <Link to="/signin" className="active" onClick={helpers.reactivateLinks} tabIndex="-1">
+          <Link to="/signin" reloadDocument tabIndex="-1">
             Sign In
           </Link>
-          <Link to="/signup" onClick={helpers.reactivateLinks} tabIndex="-1">
+          <Link to="/signup" reloadDocument tabIndex="-1">
             Sign Up
           </Link>
         </div>

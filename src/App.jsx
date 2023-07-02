@@ -15,10 +15,23 @@ export default function App() {
       try {
         const response = await fetch(helpers.apiHost, { credentials: 'include' });
         setStatus(response.status);
+        if (response.status === 200 && !window.location.hash) window.location.assign('#/dashboard');
+        if (response.status === 401 && !window.location.hash) window.location.assign('#/signin');
+        setTimeout(() => {
+          helpers.deactivateLinks();
+          helpers.activateLinks();
+        });
       } catch {
         setStatus(500);
       }
     })();
+
+    const onHashChange = () => {
+      helpers.deactivateLinks();
+      helpers.activateLinks();
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
   return status !== null ? (

@@ -52,7 +52,7 @@ export default function SignIn({ setStatus }) {
 
       <p>
         Don&apos;t have an account yet?{' '}
-        <Link to="/signup" onClick={helpers.reactivateLinks}>
+        <Link to="/signup" reloadDocument>
           Sign up!
         </Link>
       </p>

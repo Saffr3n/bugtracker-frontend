@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import * as helpers from '../helpers';
 import SignInIcon from '../assets/icons/signin.svg';
 import SignUpIcon from '../assets/icons/signup.svg';
 
@@ -12,17 +11,17 @@ export default function Nav({ status }) {
         {status === 200 ? (
           <>
             <li>
-              <Link to="/dashboard" className="active" onClick={helpers.reactivateLinks}>
+              <Link to="/dashboard" reloadDocument>
                 Dashboard
               </Link>
             </li>
             <li>
-              <Link to="/projects" onClick={helpers.reactivateLinks}>
+              <Link to="/projects" reloadDocument>
                 Projects
               </Link>
             </li>
             <li>
-              <Link to="/tickets" onClick={helpers.reactivateLinks}>
+              <Link to="/tickets" reloadDocument>
                 Tickets
               </Link>
             </li>
@@ -30,13 +29,13 @@ export default function Nav({ status }) {
         ) : (
           <>
             <li>
-              <Link to="/signin" className="active" onClick={helpers.reactivateLinks}>
+              <Link to="/signin" reloadDocument>
                 <SignInIcon role="none" />
                 Sign In
               </Link>
             </li>
             <li>
-              <Link to="/signup" onClick={helpers.reactivateLinks}>
+              <Link to="/signup" reloadDocument>
                 <SignUpIcon role="none" />
                 Sign Up
               </Link>

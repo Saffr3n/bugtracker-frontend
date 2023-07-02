@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
@@ -18,7 +18,6 @@ export default function Main({ status, setStatus }) {
         <Routes>
           {status === 200 ? (
             <>
-              <Route path="/" element={<Navigate to="/dashboard" />} />
               <Route
                 path="/search"
                 element={
@@ -39,11 +38,10 @@ export default function Main({ status, setStatus }) {
               />
               <Route path="/projects" element={<Projects setStatus={setStatus} />} />
               <Route path="/tickets" element={<Tickets setStatus={setStatus} />} />
+              <Route path="/signout" element={<h1>Signing out...</h1>} />
             </>
           ) : (
             <>
-              <Route path="/" element={<Navigate to="/signin" />} />
-              <Route path="/signout" element={<Navigate to="/signin" />} />
               <Route path="/signin" element={<SignIn setStatus={setStatus} />} />
               <Route path="/signup" element={<SignUp setStatus={setStatus} />} />
             </>
