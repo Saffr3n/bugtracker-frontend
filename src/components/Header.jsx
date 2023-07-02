@@ -66,47 +66,43 @@ export default function Header({ status, setStatus }) {
         <span>BugTracker</span>
       </div>
 
-      {status === 500 ? (
-        null
-      ) : (
-        status === 200 ? (
-          <>
-            <form onSubmit={onSearchSubmit} role="search" noValidate>
-              <input type="search" placeholder="Search..." onFocus={onSearchFocus} onBlur={onSearchBlur} aria-label="Search" />
-              <button type="submit" className="svg">
-                <SearchIcon aria-label="Perform search" />
-              </button>
-            </form>
-  
-            <div>
-              <button type="button" className="svg" aria-haspopup="true" aria-expanded="false">
-                <NotificationsIcon aria-label="Browse notifications" />
-              </button>
-              <button type="button" className="user" onClick={onUserBtnClick} aria-label="Open the user menu" aria-haspopup="true" aria-expanded="false" />
-              <div className="user-menu">
-                <ul>
-                  <li>Some</li>
-                  <li>Stuff</li>
-                  <li>Here</li>
-                  <li>
-                    <Link to="/signout" onClick={onSignOut}>
-                      Sign Out
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+      {status === 500 ? null : status === 200 ? (
+        <>
+          <form onSubmit={onSearchSubmit} role="search" noValidate>
+            <input type="search" placeholder="Search..." onFocus={onSearchFocus} onBlur={onSearchBlur} aria-label="Search" />
+            <button type="submit" className="svg">
+              <SearchIcon aria-label="Perform search" />
+            </button>
+          </form>
+
+          <div>
+            <button type="button" className="svg" aria-haspopup="true" aria-expanded="false">
+              <NotificationsIcon aria-label="Browse notifications" />
+            </button>
+            <button type="button" className="user" onClick={onUserBtnClick} aria-label="Open the user menu" aria-haspopup="true" aria-expanded="false" />
+            <div className="user-menu">
+              <ul>
+                <li>Some</li>
+                <li>Stuff</li>
+                <li>Here</li>
+                <li>
+                  <Link to="/signout" onClick={onSignOut}>
+                    Sign Out
+                  </Link>
+                </li>
+              </ul>
             </div>
-          </>
-        ) : (
-          <div aria-hidden="true">
-            <Link to="/signin" className="active" onClick={helpers.reactivateLinks} tabIndex="-1">
-              Sign In
-            </Link>
-            <Link to="/signup" onClick={helpers.reactivateLinks} tabIndex="-1">
-              Sign Up
-            </Link>
           </div>
-        )
+        </>
+      ) : (
+        <div aria-hidden="true">
+          <Link to="/signin" className="active" onClick={helpers.reactivateLinks} tabIndex="-1">
+            Sign In
+          </Link>
+          <Link to="/signup" onClick={helpers.reactivateLinks} tabIndex="-1">
+            Sign Up
+          </Link>
+        </div>
       )}
     </header>
   );

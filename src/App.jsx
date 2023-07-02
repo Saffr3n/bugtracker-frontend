@@ -15,8 +15,7 @@ export default function App() {
       try {
         const response = await fetch(helpers.apiHost, { credentials: 'include' });
         setStatus(response.status);
-      }
-      catch {
+      } catch {
         setStatus(500);
       }
     })();
@@ -25,7 +24,7 @@ export default function App() {
   return status !== null ? (
     <HashRouter>
       <Header status={status} setStatus={setStatus} />
-      {status !== 500 ? (<Nav status={status} />) : null}
+      {status !== 500 ? <Nav status={status} /> : null}
       <Main status={status} setStatus={setStatus} />
       <Footer />
     </HashRouter>

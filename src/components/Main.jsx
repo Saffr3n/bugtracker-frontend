@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import Projects from './Projects';
+import Tickets from './Tickets';
 
 export default function Main({ status, setStatus }) {
   return (
@@ -17,10 +19,26 @@ export default function Main({ status, setStatus }) {
           {status === 200 ? (
             <>
               <Route path="/" element={<Navigate to="/dashboard" />} />
-              <Route path="/search" element={<h1>Search</h1>} />
-              <Route path="/dashboard" element={<h1>Dashboard</h1>} />
-              <Route path="/projects" element={<h1>Projects</h1>} />
-              <Route path="/tickets" element={<h1>Tickets</h1>} />
+              <Route
+                path="/search"
+                element={
+                  <>
+                    <h1>Search</h1>
+                    <p style={{ textAlign: 'center' }}>Work in progress...</p>
+                  </>
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  <>
+                    <h1>Dashboard</h1>
+                    <p style={{ textAlign: 'center' }}>Work in progress...</p>
+                  </>
+                }
+              />
+              <Route path="/projects" element={<Projects setStatus={setStatus} />} />
+              <Route path="/tickets" element={<Tickets setStatus={setStatus} />} />
             </>
           ) : (
             <>
@@ -30,6 +48,7 @@ export default function Main({ status, setStatus }) {
               <Route path="/signup" element={<SignUp setStatus={setStatus} />} />
             </>
           )}
+          <Route path="*" element={<h1>Page Not Found</h1>} />
         </Routes>
       )}
     </main>
