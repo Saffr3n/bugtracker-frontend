@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Projects from './Projects';
+import ProjectCreate from './ProjectCreate';
 import Tickets from './Tickets';
 
 export default function Main({ status, setStatus }) {
@@ -37,6 +38,7 @@ export default function Main({ status, setStatus }) {
                 }
               />
               <Route path="/projects" element={<Projects setStatus={setStatus} />} />
+              <Route path="/projects/create" element={<ProjectCreate setStatus={setStatus} />} />
               <Route path="/tickets" element={<Tickets setStatus={setStatus} />} />
               <Route path="/signout" element={<h1>Signing out...</h1>} />
             </>

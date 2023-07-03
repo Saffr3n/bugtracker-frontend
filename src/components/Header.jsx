@@ -55,7 +55,7 @@ export default function Header({ status, setStatus }) {
       method: 'DELETE',
       credentials: 'include'
     });
-    setStatus(400);
+    setStatus(401);
     window.location.assign('#/signin');
   };
 

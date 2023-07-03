@@ -4,7 +4,7 @@ import * as helpers from '../helpers';
 
 export default function SignUp({ setStatus }) {
   const pageTitle = 'Sign Up';
-  useEffect(() => helpers.updateTitle(pageTitle));
+  useEffect(() => helpers.updateTitle(pageTitle), []);
 
   const onSignUp = async (e) => {
     e.preventDefault();
