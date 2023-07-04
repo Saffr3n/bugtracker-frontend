@@ -1,8 +1,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ServerError from './ServerError';
+import PageNotFound from './PageNotFound';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import SearchResults from './SearchResults';
+import Dashboard from './Dashboard';
 import Projects from './Projects';
 import ProjectCreate from './ProjectCreate';
 import Project from './Project';
@@ -12,32 +16,13 @@ export default function Main({ status, setStatus }) {
   return (
     <main data-testid="main">
       {status === 500 ? (
-        <>
-          <h1>Server Error</h1>
-          <p style={{ textAlign: 'center' }}>Please try again later.</p>
-        </>
+        <ServerError />
       ) : (
         <Routes>
           {status === 200 ? (
             <>
-              <Route
-                path="/search"
-                element={
-                  <>
-                    <h1>Search</h1>
-                    <p style={{ textAlign: 'center' }}>Work in progress...</p>
-                  </>
-                }
-              />
-              <Route
-                path="/dashboard"
-                element={
-                  <>
-                    <h1>Dashboard</h1>
-                    <p style={{ textAlign: 'center' }}>Work in progress...</p>
-                  </>
-                }
-              />
+              <Route path="/search" element={<SearchResults />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/projects" element={<Projects setStatus={setStatus} />} />
               <Route path="/projects/create" element={<ProjectCreate setStatus={setStatus} />} />
               <Route path="/projects/*" element={<Project setStatus={setStatus} />} />
@@ -50,7 +35,7 @@ export default function Main({ status, setStatus }) {
               <Route path="/signup" element={<SignUp setStatus={setStatus} />} />
             </>
           )}
-          <Route path="*" element={<h1>Page Not Found</h1>} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       )}
     </main>
