@@ -9,18 +9,21 @@ import NotificationsIcon from '../assets/icons/notifications.svg';
 export default function Header({ status, setStatus }) {
   const onSearchSubmit = (e) => {
     e.preventDefault();
-    const searchQuery = e.target.querySelector('input').value;
-    const url = `#/search?q=${searchQuery}`;
+
+    const query = e.target.querySelector('input').value;
+    const url = `#/search?q=${query}`;
+
     window.location.assign(url);
   };
 
   const userMenuClickHandler = (e) => {
-    const clickedUserMenu = (target) => {
+    const userMenuIsClicked = (target) => {
       if (!target || !target.classList) return false;
       if (target.classList.contains('user-menu')) return true;
-      return clickedUserMenu(target.parentNode);
+      return userMenuIsClicked(target.parentNode);
     };
-    if (clickedUserMenu(e.target)) return;
+
+    if (userMenuIsClicked(e.target)) return;
 
     document.querySelector('.user').setAttribute('aria-expanded', false);
     document.querySelector('.user-menu').style.display = 'none';
@@ -29,7 +32,9 @@ export default function Header({ status, setStatus }) {
 
   const onUserBtnClick = (e) => {
     e.stopPropagation();
+
     const expanded = JSON.parse(e.target.getAttribute('aria-expanded'));
+
     e.target.setAttribute('aria-expanded', !expanded);
 
     if (expanded) {
@@ -43,10 +48,12 @@ export default function Header({ status, setStatus }) {
 
   const onSignOut = async () => {
     document.removeEventListener('click', userMenuClickHandler);
+
     await fetch(helpers.apiHost, {
       method: 'DELETE',
       credentials: 'include'
     });
+
     setStatus(401);
     window.location.assign('#/signin');
   };

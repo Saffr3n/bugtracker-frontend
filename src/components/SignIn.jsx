@@ -5,6 +5,7 @@ import * as helpers from '../helpers';
 
 export default function SignIn({ setStatus }) {
   const pageTitle = 'Sign In';
+
   useEffect(() => helpers.updateTitle(pageTitle), []);
 
   const onSignIn = async (e) => {
@@ -22,8 +23,10 @@ export default function SignIn({ setStatus }) {
 
     if (response.status !== 200) {
       e.target.querySelector('#password').value = '';
+
       const data = await response.json();
       const alert = e.target.querySelector('p[role="alert"]');
+
       alert.textContent = `${data.message}.`;
       alert.style.display = 'block';
       return;

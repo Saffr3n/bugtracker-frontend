@@ -2,25 +2,21 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as helpers from '../helpers';
 
-export default function Projects({ setStatus, setProject }) {
+export default function Projects({ setStatus }) {
   const [projects, setProjects] = useState([]);
   const pageTitle = 'Projects';
 
   useEffect(() => {
     (async () => {
-      helpers.updateTitle(pageTitle);
+      const response = await fetch(`${helpers.apiHost}/projects`, { credentials: 'include' }).catch(() => setStatus(500));
 
-      let status;
-      try {
-        const response = await fetch(`${helpers.apiHost}/projects`, { credentials: 'include' });
-        status = response.status;
-        setStatus(response.status);
-        setProjects(await response.json());
-      } catch {
-        setStatus(500);
-      }
-      if (status === 401) window.location.assign('#/signin');
+      setStatus(response.status);
+      setProjects(await response.json());
+
+      if (response.status === 401) window.location.assign('#/signin');
     })();
+
+    helpers.updateTitle(pageTitle);
   }, []);
 
   const onSearchInput = (e) => {
@@ -33,6 +29,7 @@ export default function Projects({ setStatus, setProject }) {
       for (let j = 0; j < cells.length; j++) {
         const data = cells[j].textContent.toUpperCase();
         const query = e.target.value.toUpperCase();
+
         if (data.includes(query)) hidden = false;
       }
 
@@ -41,9 +38,8 @@ export default function Projects({ setStatus, setProject }) {
     }
   };
 
-  const onTableRowClick = (project) => {
-    setProject(project);
-    window.location.assign(`#/projects/${project._id}`);
+  const onTableRowClick = (projectId) => {
+    window.location.assign(`#/projects/${projectId}`);
   };
 
   return (
@@ -63,7 +59,7 @@ export default function Projects({ setStatus, setProject }) {
             </thead>
             <tbody>
               {projects.map((project) => (
-                <tr onClick={() => onTableRowClick(project)} tabIndex={0} aria-label={`"${project.title}", managed by ${project.manager.firstName} ${project.manager.lastName}, click for details`}>
+                <tr onClick={() => onTableRowClick(project._id)} tabIndex={0} aria-label={`"${project.title}", managed by ${project.manager.firstName} ${project.manager.lastName}, click for details`}>
                   <td>{project.title}</td>
                   <td>{project.description}</td>
                   <td>{`${project.manager.firstName} ${project.manager.lastName}`}</td>
@@ -83,6 +79,5 @@ export default function Projects({ setStatus, setProject }) {
   );
 }
 Projects.propTypes = {
-  setStatus: PropTypes.func.isRequired,
-  setProject: PropTypes.func.isRequired
+  setStatus: PropTypes.func.isRequired
 };

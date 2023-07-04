@@ -13,7 +13,7 @@ export const onSearchBlur = (e) => {
   e.target.placeholder = 'Search...';
 };
 
-export const deactivateLinks = () => {
+const deactivateLinks = () => {
   const activeLinks = document.querySelectorAll('.active');
 
   if (activeLinks.length) {
@@ -23,7 +23,7 @@ export const deactivateLinks = () => {
   }
 };
 
-export const activateLinks = () => {
+const activateLinks = () => {
   const { hash } = window.location;
   const activeLinks = document.querySelectorAll(`a[href="${hash}"]`);
 
@@ -32,4 +32,9 @@ export const activateLinks = () => {
       link.classList.add('active');
     });
   }
+};
+
+export const onHashChange = () => {
+  deactivateLinks();
+  activateLinks();
 };

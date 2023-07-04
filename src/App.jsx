@@ -12,26 +12,19 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await fetch(helpers.apiHost, { credentials: 'include' });
-        setStatus(response.status);
-        if (response.status === 200 && !window.location.hash) window.location.assign('#/dashboard');
-        if (response.status === 401 && !window.location.hash) window.location.assign('#/signin');
-        setTimeout(() => {
-          helpers.deactivateLinks();
-          helpers.activateLinks();
-        });
-      } catch {
-        setStatus(500);
+      const response = await fetch(helpers.apiHost, { credentials: 'include' }).catch(() => setStatus(500));
+
+      setStatus(response.status);
+
+      if (!window.location.hash) {
+        window.location.assign(response.status === 200 ? '#/dashboard' : '#/signin');
+      } else {
+        setTimeout(() => helpers.onHashChange());
       }
     })();
 
-    const onHashChange = () => {
-      helpers.deactivateLinks();
-      helpers.activateLinks();
-    };
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
+    window.addEventListener('hashchange', helpers.onHashChange);
+    return () => window.removeEventListener('hashchange', helpers.onHashChange);
   }, []);
 
   return status !== null ? (

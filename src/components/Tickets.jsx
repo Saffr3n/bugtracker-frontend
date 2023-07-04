@@ -7,18 +7,14 @@ export default function Tickets({ setStatus }) {
 
   useEffect(() => {
     (async () => {
-      helpers.updateTitle(pageTitle);
+      const response = await fetch(`${helpers.apiHost}/tickets`, { credentials: 'include' }).catch(() => setStatus(500));
 
-      let status;
-      try {
-        const response = await fetch(`${helpers.apiHost}/tickets`, { credentials: 'include' });
-        status = response.status;
-        setStatus(response.status);
-      } catch {
-        setStatus(500);
-      }
-      if (status === 401) window.location.assign('#/signin');
+      setStatus(response.status);
+
+      if (response.status === 401) window.location.assign('#/signin');
     })();
+
+    helpers.updateTitle(pageTitle);
   }, []);
 
   return <h1>{pageTitle}</h1>;

@@ -4,6 +4,7 @@ import * as helpers from '../helpers';
 
 export default function ProjectCreate({ setStatus }) {
   const pageTitle = 'New Project';
+
   useEffect(() => helpers.updateTitle(pageTitle), []);
 
   const onProjectCreate = async (e) => {
@@ -18,38 +19,33 @@ export default function ProjectCreate({ setStatus }) {
     titleLabel.classList.remove('invalid');
     titleHint.textContent = '';
 
-    try {
-      const response = await fetch(`${helpers.apiHost}/projects`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: titleInput.value,
-          description: e.target.querySelector('textarea').value
-        }),
-        credentials: 'include'
-      });
+    const response = await fetch(`${helpers.apiHost}/projects`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: titleInput.value,
+        description: e.target.querySelector('textarea').value
+      }),
+      credentials: 'include'
+    }).catch(() => setStatus(500));
 
-      if (response.status === 401) {
-        setStatus(response.status);
-        return;
-      }
-
-      const data = await response.json();
-
-      if (response.status !== 200) {
-        titleInput.classList.add('invalid');
-        titleInput.setAttribute('aria-invalid', 'true');
-        titleLabel.classList.add('invalid');
-        titleHint.textContent = data.message;
-
-        e.target.querySelector('.invalid').focus();
-        return;
-      }
-
-      window.location.assign(`#/projects/${data.id}`);
-    } catch {
-      setStatus(500);
+    if (response.status === 401) {
+      setStatus(response.status);
+      return;
     }
+
+    const data = await response.json();
+
+    if (response.status !== 200) {
+      titleInput.classList.add('invalid');
+      titleInput.setAttribute('aria-invalid', 'true');
+      titleLabel.classList.add('invalid');
+      titleHint.textContent = data.message;
+      e.target.querySelector('.invalid').focus();
+      return;
+    }
+
+    window.location.assign(`#/projects/${data.id}`);
   };
 
   return (

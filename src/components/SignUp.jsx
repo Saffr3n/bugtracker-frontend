@@ -4,6 +4,7 @@ import * as helpers from '../helpers';
 
 export default function SignUp({ setStatus }) {
   const pageTitle = 'Sign Up';
+
   useEffect(() => helpers.updateTitle(pageTitle), []);
 
   const onSignUp = async (e) => {
@@ -20,6 +21,7 @@ export default function SignUp({ setStatus }) {
 
     for (let i = 0, l = Object.keys(inputs).length; i < l; i++) {
       const key = Object.keys(inputs)[i];
+
       inputs[key].classList.remove('invalid');
       inputs[key].setAttribute('aria-invalid', 'false');
       labels[key].classList.remove('invalid');
@@ -49,16 +51,18 @@ export default function SignUp({ setStatus }) {
 
     if (response.status !== 200) {
       const data = await response.json();
-
       const alert = e.target.querySelector('p[role="alert"]');
+
       if (data.message.includes('User')) {
         alert.textContent = 'User with provided email already exists.';
         alert.style.display = 'block';
         return;
       }
+
       alert.style.display = 'none';
 
       const errors = data.message.split('. ');
+
       errors.forEach((err) => {
         const source = err.split(' ')[0].toLowerCase();
         inputs[source].classList.add('invalid');
