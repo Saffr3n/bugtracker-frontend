@@ -5,6 +5,14 @@ export const updateTitle = (pageTitle) => {
   document.title = `${pageTitle} - ${globalTitle}`;
 };
 
+export const onSearchFocus = (e) => {
+  e.target.placeholder = '';
+};
+
+export const onSearchBlur = (e) => {
+  e.target.placeholder = 'Search...';
+};
+
 export const deactivateLinks = () => {
   const activeLinks = document.querySelectorAll('.active');
 

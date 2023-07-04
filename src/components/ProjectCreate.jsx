@@ -29,14 +29,14 @@ export default function ProjectCreate({ setStatus }) {
         credentials: 'include'
       });
 
+      if (response.status === 401) {
+        setStatus(response.status);
+        return;
+      }
+
+      const data = await response.json();
+
       if (response.status !== 200) {
-        if (response.status === 401) {
-          setStatus(response.status);
-          return;
-        }
-
-        const data = await response.json();
-
         titleInput.classList.add('invalid');
         titleInput.setAttribute('aria-invalid', 'true');
         titleLabel.classList.add('invalid');
@@ -45,12 +45,11 @@ export default function ProjectCreate({ setStatus }) {
         e.target.querySelector('.invalid').focus();
         return;
       }
+
+      window.location.assign(`#/projects/${data.id}`);
     } catch {
       setStatus(500);
-      return;
     }
-
-    console.log('project created');
   };
 
   return (

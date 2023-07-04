@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Projects from './Projects';
 import ProjectCreate from './ProjectCreate';
+import Project from './Project';
 import Tickets from './Tickets';
 
 export default function Main({ status, setStatus }) {
+  const [project, setProject] = useState({});
+
   return (
     <main data-testid="main">
       {status === 500 ? (
@@ -37,8 +40,9 @@ export default function Main({ status, setStatus }) {
                   </>
                 }
               />
-              <Route path="/projects" element={<Projects setStatus={setStatus} />} />
+              <Route path="/projects" element={<Projects setStatus={setStatus} setProject={setProject} />} />
               <Route path="/projects/create" element={<ProjectCreate setStatus={setStatus} />} />
+              <Route path="/projects/*" element={<Project project={project} />} />
               <Route path="/tickets" element={<Tickets setStatus={setStatus} />} />
               <Route path="/signout" element={<h1>Signing out...</h1>} />
             </>

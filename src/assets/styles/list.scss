@@ -6,4 +6,32 @@
   & p {
     margin: 0 0 8px 0;
   }
+
+  & input {
+    align-self: flex-end;
+  }
+
+  & table {
+    width: 100%;
+    margin: 8px 0;
+    background-color: $evening-sea;
+
+    & th,
+    & td {
+      padding: 4px;
+    }
+
+    & thead tr {
+      background-color: $light-teal;
+    }
+
+    & tbody tr {
+      background-color: white;
+    }
+
+    & tbody tr:hover,
+    & tbody tr:focus {
+      background-color: $pale-teal;
+    }
+  }
 }

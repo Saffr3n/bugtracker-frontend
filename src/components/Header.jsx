@@ -7,14 +7,6 @@ import SearchIcon from '../assets/icons/search.svg';
 import NotificationsIcon from '../assets/icons/notifications.svg';
 
 export default function Header({ status, setStatus }) {
-  const onSearchFocus = (e) => {
-    e.target.placeholder = '';
-  };
-
-  const onSearchBlur = (e) => {
-    e.target.placeholder = 'Search...';
-  };
-
   const onSearchSubmit = (e) => {
     e.preventDefault();
     const searchQuery = e.target.querySelector('input').value;
@@ -69,7 +61,7 @@ export default function Header({ status, setStatus }) {
       {status === 500 ? null : status === 200 ? (
         <>
           <form onSubmit={onSearchSubmit} role="search" noValidate>
-            <input type="search" placeholder="Search..." onFocus={onSearchFocus} onBlur={onSearchBlur} aria-label="Search" />
+            <input type="search" placeholder="Search..." onFocus={helpers.onSearchFocus} onBlur={helpers.onSearchBlur} aria-label="Search" />
             <button type="submit" className="svg">
               <SearchIcon aria-label="Perform search" />
             </button>

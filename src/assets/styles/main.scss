@@ -25,11 +25,11 @@ main {
       flex-direction: inherit;
       gap: 2px;
     }
+  }
 
-    & input:focus,
-    & textarea:focus {
-      outline-color: teal;
-    }
+  & input:focus,
+  & textarea:focus {
+    outline-color: teal;
   }
 
   & button:not(.svg) {
