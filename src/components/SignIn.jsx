@@ -11,24 +11,34 @@ export default function SignIn({ setStatus }) {
   const onSignIn = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(helpers.apiHost, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: e.target.querySelector('#email').value,
-        password: e.target.querySelector('#password').value
-      }),
-      credentials: 'include'
-    });
+    try {
+      const response = await fetch(helpers.apiHost, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: e.target.querySelector('#email').value,
+          password: e.target.querySelector('#password').value
+        }),
+        credentials: 'include'
+      });
 
-    if (response.status !== 200) {
-      e.target.querySelector('#password').value = '';
+      if (response.status === 500) {
+        setStatus(500);
+        return;
+      }
 
-      const data = await response.json();
-      const alert = e.target.querySelector('p[role="alert"]');
+      if (response.status === 400) {
+        e.target.querySelector('#password').value = '';
 
-      alert.textContent = `${data.message}.`;
-      alert.style.display = 'block';
+        const data = await response.json();
+        const alert = e.target.querySelector('p[role="alert"]');
+
+        alert.textContent = `${data.message}.`;
+        alert.style.display = 'block';
+        return;
+      }
+    } catch {
+      setStatus(500);
       return;
     }
 

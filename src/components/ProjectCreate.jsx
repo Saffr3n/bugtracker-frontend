@@ -19,33 +19,40 @@ export default function ProjectCreate({ setStatus }) {
     titleLabel.classList.remove('invalid');
     titleHint.textContent = '';
 
-    const response = await fetch(`${helpers.apiHost}/projects`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: titleInput.value,
-        description: e.target.querySelector('textarea').value
-      }),
-      credentials: 'include'
-    }).catch(() => setStatus(500));
+    try {
+      const response = await fetch(`${helpers.apiHost}/projects`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: titleInput.value,
+          description: e.target.querySelector('textarea').value
+        }),
+        credentials: 'include'
+      });
 
-    if (response.status === 401) {
       setStatus(response.status);
-      return;
+
+      if (response.status === 500) return;
+      if (response.status === 401) {
+        window.location.assign('#/signin');
+        return;
+      }
+
+      const data = await response.json();
+
+      if (response.status !== 200) {
+        titleInput.classList.add('invalid');
+        titleInput.setAttribute('aria-invalid', 'true');
+        titleLabel.classList.add('invalid');
+        titleHint.textContent = data.message;
+        e.target.querySelector('.invalid').focus();
+        return;
+      }
+
+      window.location.assign(`#${data.url}`);
+    } catch {
+      setStatus(500);
     }
-
-    const data = await response.json();
-
-    if (response.status !== 200) {
-      titleInput.classList.add('invalid');
-      titleInput.setAttribute('aria-invalid', 'true');
-      titleLabel.classList.add('invalid');
-      titleHint.textContent = data.message;
-      e.target.querySelector('.invalid').focus();
-      return;
-    }
-
-    window.location.assign(`#/projects/${data.id}`);
   };
 
   return (

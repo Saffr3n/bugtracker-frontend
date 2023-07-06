@@ -19,7 +19,7 @@ export default function Main({ status, setStatus }) {
         <ServerError />
       ) : (
         <Routes>
-          {status === 200 ? (
+          {status !== 401 ? (
             <>
               <Route path="/search" element={<SearchResults />} />
               <Route path="/dashboard" element={<Dashboard />} />

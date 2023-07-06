@@ -12,19 +12,26 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(helpers.apiHost, { credentials: 'include' }).catch(() => setStatus(500));
+      try {
+        const response = await fetch(helpers.apiHost, { credentials: 'include' });
 
-      setStatus(response.status);
+        setStatus(response.status);
 
-      if (!window.location.hash) {
-        window.location.assign(response.status === 200 ? '#/dashboard' : '#/signin');
-      } else {
-        setTimeout(() => helpers.onHashChange());
+        if (response.status === 500) return;
+
+        if (!window.location.hash) {
+          window.location.assign(response.status === 200 ? '#/dashboard' : '#/signin');
+        } else {
+          setTimeout(() => helpers.onHashChange());
+        }
+
+        window.addEventListener('hashchange', helpers.onHashChange);
+      } catch {
+        setStatus(500);
       }
-    })();
 
-    window.addEventListener('hashchange', helpers.onHashChange);
-    return () => window.removeEventListener('hashchange', helpers.onHashChange);
+      return () => window.removeEventListener('hashchange', helpers.onHashChange);
+    })();
   }, []);
 
   return status !== null ? (

@@ -37,41 +37,51 @@ export default function SignUp({ setStatus }) {
       return;
     }
 
-    const response = await fetch(`${helpers.apiHost}/users`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: inputs.email.value,
-        password: inputs.password.value,
-        firstName: inputs.first.value,
-        lastName: inputs.last.value
-      }),
-      credentials: 'include'
-    });
+    try {
+      const response = await fetch(`${helpers.apiHost}/users`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: inputs.email.value,
+          password: inputs.password.value,
+          firstName: inputs.first.value,
+          lastName: inputs.last.value
+        }),
+        credentials: 'include'
+      });
 
-    if (response.status !== 200) {
-      const data = await response.json();
-      const alert = e.target.querySelector('p[role="alert"]');
-
-      if (data.message.includes('User')) {
-        alert.textContent = 'User with provided email already exists.';
-        alert.style.display = 'block';
+      if (response.status === 500) {
+        setStatus(500);
         return;
       }
 
-      alert.style.display = 'none';
+      if (response.status === 400) {
+        const data = await response.json();
+        const alert = e.target.querySelector('p[role="alert"]');
 
-      const errors = data.message.split('. ');
+        if (data.message.includes('User')) {
+          alert.textContent = 'User with provided email already exists.';
+          alert.style.display = 'block';
+          return;
+        }
 
-      errors.forEach((err) => {
-        const source = err.split(' ')[0].toLowerCase();
-        inputs[source].classList.add('invalid');
-        inputs[source].setAttribute('aria-invalid', 'true');
-        labels[source].classList.add('invalid');
-        hints[source].textContent = err;
-      });
+        alert.style.display = 'none';
 
-      e.target.querySelector('.invalid').focus();
+        const errors = data.message.split('. ');
+
+        errors.forEach((err) => {
+          const source = err.split(' ')[0].toLowerCase();
+          inputs[source].classList.add('invalid');
+          inputs[source].setAttribute('aria-invalid', 'true');
+          labels[source].classList.add('invalid');
+          hints[source].textContent = err;
+        });
+
+        e.target.querySelector('.invalid').focus();
+        return;
+      }
+    } catch {
+      setStatus(500);
       return;
     }
 

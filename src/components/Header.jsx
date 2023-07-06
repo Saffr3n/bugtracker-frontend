@@ -49,10 +49,15 @@ export default function Header({ status, setStatus }) {
   const onSignOut = async () => {
     document.removeEventListener('click', userMenuClickHandler);
 
-    await fetch(helpers.apiHost, {
-      method: 'DELETE',
-      credentials: 'include'
-    });
+    try {
+      await fetch(helpers.apiHost, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+    } catch {
+      setStatus(500);
+      return;
+    }
 
     setStatus(401);
     window.location.assign('#/signin');
@@ -65,7 +70,7 @@ export default function Header({ status, setStatus }) {
         <span>BugTracker</span>
       </div>
 
-      {status === 500 ? null : status === 200 ? (
+      {status === 500 ? null : status !== 401 ? (
         <>
           <form onSubmit={onSearchSubmit} role="search" noValidate>
             <input type="search" placeholder="Search..." onFocus={helpers.onSearchFocus} onBlur={helpers.onSearchBlur} aria-label="Search" />

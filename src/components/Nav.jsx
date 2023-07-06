@@ -8,7 +8,7 @@ export default function Nav({ status }) {
   return (
     <nav data-testid="nav">
       <ul>
-        {status === 200 ? (
+        {status !== 401 ? (
           <>
             <li>
               <Link to="/dashboard" reloadDocument>
