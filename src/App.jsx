@@ -8,37 +8,38 @@ import Footer from './components/Footer';
 import './assets/styles/style.scss';
 
 export default function App() {
-  const [status, setStatus] = useState(null);
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
     (async () => {
       try {
         const response = await fetch(helpers.apiHost, { credentials: 'include' });
+        const data = await response.json();
 
-        setStatus(response.status);
+        setSession(data);
 
-        if (response.status === 500) return;
+        if (data.status === 500) return;
 
         if (!window.location.hash) {
-          window.location.assign(response.status === 200 ? '#/dashboard' : '#/signin');
+          window.location.assign(data.status === 200 ? '#/dashboard' : '#/signin');
         } else {
           setTimeout(() => helpers.onHashChange());
         }
 
         window.addEventListener('hashchange', helpers.onHashChange);
       } catch {
-        setStatus(500);
+        setSession({ status: 500, message: 'Server Error' });
       }
-
-      return () => window.removeEventListener('hashchange', helpers.onHashChange);
     })();
+
+    return () => window.removeEventListener('hashchange', helpers.onHashChange);
   }, []);
 
-  return status !== null ? (
+  return session !== null ? (
     <HashRouter>
-      <Header status={status} setStatus={setStatus} />
-      {status !== 500 ? <Nav status={status} /> : null}
-      <Main status={status} setStatus={setStatus} />
+      <Header session={session} setSession={setSession} />
+      {session !== 500 ? <Nav session={session} /> : null}
+      <Main session={session} setSession={setSession} />
       <Footer />
     </HashRouter>
   ) : null;

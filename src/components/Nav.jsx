@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import SignInIcon from '../assets/icons/signin.svg';
 import SignUpIcon from '../assets/icons/signup.svg';
 
-export default function Nav({ status }) {
+export default function Nav({ session }) {
   return (
     <nav data-testid="nav">
       <ul>
-        {status !== 401 ? (
+        {session.status !== 401 ? (
           <>
             <li>
               <Link to="/dashboard" reloadDocument>
@@ -47,5 +47,12 @@ export default function Nav({ status }) {
   );
 }
 Nav.propTypes = {
-  status: PropTypes.number.isRequired
+  session: PropTypes.shape({
+    status: PropTypes.number.isRequired,
+    message: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired
+    })
+  }).isRequired
 };

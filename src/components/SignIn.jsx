@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as helpers from '../helpers';
 
-export default function SignIn({ setStatus }) {
+export default function SignIn({ setSession }) {
   const pageTitle = 'Sign In';
 
   useEffect(() => helpers.updateTitle(pageTitle), []);
@@ -21,29 +21,27 @@ export default function SignIn({ setStatus }) {
         }),
         credentials: 'include'
       });
+      const data = await response.json();
 
-      if (response.status === 500) {
-        setStatus(500);
+      if (data.status === 500) {
+        setSession({ status: 500, message: 'Server Error' });
         return;
       }
-
-      if (response.status === 400) {
+      if (data.status === 400) {
         e.target.querySelector('#password').value = '';
 
-        const data = await response.json();
         const alert = e.target.querySelector('p[role="alert"]');
 
         alert.textContent = `${data.message}.`;
         alert.style.display = 'block';
         return;
       }
-    } catch {
-      setStatus(500);
-      return;
-    }
 
-    setStatus(200);
-    window.location.assign('#/dashboard');
+      setSession(data);
+      window.location.assign('#/dashboard');
+    } catch {
+      setSession({ status: 500, message: 'Server Error' });
+    }
   };
 
   return (
@@ -73,5 +71,5 @@ export default function SignIn({ setStatus }) {
   );
 }
 SignIn.propTypes = {
-  setStatus: PropTypes.func.isRequired
+  setSession: PropTypes.func.isRequired
 };

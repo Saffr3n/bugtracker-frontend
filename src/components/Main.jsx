@@ -11,28 +11,35 @@ import Projects from './Projects';
 import ProjectCreate from './ProjectCreate';
 import Project from './Project';
 import Tickets from './Tickets';
+import TicketCreate from './TicketCreate';
+// import Ticket from './Ticket';
 
-export default function Main({ status, setStatus }) {
+export default function Main({ session, setSession }) {
   return (
     <main data-testid="main">
-      {status === 500 ? (
+      {session.status === 500 ? (
         <ServerError />
       ) : (
         <Routes>
-          {status !== 401 ? (
+          {session.status !== 401 ? (
             <>
               <Route path="/search" element={<SearchResults />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/projects" element={<Projects setStatus={setStatus} />} />
-              <Route path="/projects/create" element={<ProjectCreate setStatus={setStatus} />} />
-              <Route path="/projects/*" element={<Project setStatus={setStatus} />} />
-              <Route path="/tickets" element={<Tickets setStatus={setStatus} />} />
+
+              <Route path="/projects" element={<Projects session={session} setSession={setSession} />} />
+              <Route path="/projects/create" element={<ProjectCreate session={session} setSession={setSession} />} />
+              <Route path="/projects/*" element={<Project session={session} setSession={setSession} />} />
+
+              <Route path="/tickets" element={<Tickets session={session} setSession={setSession} />} />
+              <Route path="/tickets/create" element={<TicketCreate session={session} setSession={setSession} />} />
+              {/* <Route path="/tickets/*" element={<Ticket setSession={setSession} />} /> */}
+
               <Route path="/signout" element={<h1>Signing out...</h1>} />
             </>
           ) : (
             <>
-              <Route path="/signin" element={<SignIn setStatus={setStatus} />} />
-              <Route path="/signup" element={<SignUp setStatus={setStatus} />} />
+              <Route path="/signin" element={<SignIn setSession={setSession} />} />
+              <Route path="/signup" element={<SignUp setSession={setSession} />} />
             </>
           )}
           <Route path="*" element={<PageNotFound />} />
@@ -42,6 +49,13 @@ export default function Main({ status, setStatus }) {
   );
 }
 Main.propTypes = {
-  status: PropTypes.number.isRequired,
-  setStatus: PropTypes.func.isRequired
+  session: PropTypes.shape({
+    status: PropTypes.number.isRequired,
+    message: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired
+    })
+  }).isRequired,
+  setSession: PropTypes.func.isRequired
 };

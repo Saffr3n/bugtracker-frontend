@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as helpers from '../helpers';
 
-export default function Project({ setStatus }) {
+export default function Project({ session, setSession }) {
   const [project, setProject] = useState(null);
   let pageTitle;
 
@@ -13,26 +13,27 @@ export default function Project({ setStatus }) {
 
       try {
         const response = await fetch(`${helpers.apiHost}/projects/${id}`, { credentials: 'include' });
+        const data = await response.json();
 
-        setStatus(response.status);
+        setSession({ ...data, user: session.user });
 
-        if (response.status === 500) return;
-        if (response.status === 401) {
+        if (data.status === 500) return;
+        if (data.status === 401) {
           window.location.assign('#/signin');
           return;
         }
-        if (response.status === 400) {
+        if (data.status === 400) {
           window.location.assign('#/404');
           return;
         }
 
-        const project = await response.json();
+        const { project } = data;
 
         setProject(project);
         pageTitle = project.title;
         helpers.updateTitle(pageTitle);
       } catch {
-        setStatus(500);
+        setSession({ status: 500, message: 'Server Error' });
       }
     })();
   }, []);
@@ -42,7 +43,10 @@ export default function Project({ setStatus }) {
       <h1>{project.title}</h1>
       <p>{project.description}</p>
       <small>
-        Project Manager: <Link to={`/users/${project.manager._id}`} reloadDocument>{`${project.manager.firstName} ${project.manager.lastName}`}</Link>
+        <span>
+          Project Manager: <Link to={`/users/${project.manager._id}`} reloadDocument>{`${project.manager.firstName} ${project.manager.lastName}`}</Link>
+        </span>
+        <span>Created: {new Date(project.created).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</span>
       </small>
       <hr style={{ alignSelf: 'stretch' }} />
       <h2>Tickets</h2>
@@ -53,20 +57,20 @@ export default function Project({ setStatus }) {
             <thead>
               <tr>
                 <th>Title</th>
-                <th>Status</th>
                 <th>Description</th>
+                <th>Status</th>
                 <th>Submitter</th>
                 <th>Created</th>
               </tr>
             </thead>
             <tbody>
               {project.tickets.map((ticket) => (
-                <tr onClick={() => helpers.onTableRowClick(ticket._id)} tabIndex={0} aria-label={`Ticket: "${ticket.title}", status: ${ticket.status}, submitted by ${ticket.submitter.firstName} ${ticket.submitter.lastName}, click for details`}>
+                <tr key={ticket._id} onClick={() => helpers.onTableRowClick('tickets', ticket._id)} tabIndex={0} aria-label={`Ticket: "${ticket.title}", status: ${ticket.status}, submitted by ${ticket.submitter.firstName} ${ticket.submitter.lastName}, click for details`}>
                   <td>{ticket.title}</td>
-                  <td>{ticket.status}</td>
                   <td>{ticket.description}</td>
+                  <td style={{ color: ticket.status ? 'red' : 'green' }}>{ticket.status ? 'open' : 'closed'}</td>
                   <td>{`${ticket.submitter.firstName} ${ticket.submitter.lastName}`}</td>
-                  <td>{ticket.created}</td>
+                  <td>{new Date(ticket.created).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</td>
                 </tr>
               ))}
             </tbody>
@@ -90,7 +94,7 @@ export default function Project({ setStatus }) {
             </thead>
             <tbody>
               {project.users.map((user) => (
-                <tr onClick={() => helpers.onTableRowClick(user._id)} tabIndex={0} aria-label={`User: ${user.firstName} ${user.lastName}, role: ${user.role}, click for details`}>
+                <tr key={user._id} onClick={() => helpers.onTableRowClick('users', user._id)} tabIndex={0} aria-label={`User: ${user.firstName} ${user.lastName}, role: ${user.role}, click for details`}>
                   <td>{`${user.firstName} ${user.lastName}`}</td>
                   <td>{user.role}</td>
                   <td>{user.registered}</td>
@@ -106,5 +110,13 @@ export default function Project({ setStatus }) {
   ) : null;
 }
 Project.propTypes = {
-  setStatus: PropTypes.func.isRequired
+  session: PropTypes.shape({
+    status: PropTypes.number.isRequired,
+    message: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
+  setSession: PropTypes.func.isRequired
 };

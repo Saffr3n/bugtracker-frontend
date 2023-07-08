@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as helpers from '../helpers';
 
-export default function ProjectCreate({ setStatus }) {
+export default function ProjectCreate({ session, setSession }) {
   const pageTitle = 'New Project';
 
   useEffect(() => helpers.updateTitle(pageTitle), []);
@@ -29,29 +29,27 @@ export default function ProjectCreate({ setStatus }) {
         }),
         credentials: 'include'
       });
+      const data = await response.json();
 
-      setStatus(response.status);
+      setSession({ ...data, user: session.user });
 
-      if (response.status === 500) return;
-      if (response.status === 401) {
+      if (data.status === 500) return;
+      if (data.status === 401) {
         window.location.assign('#/signin');
         return;
       }
-
-      const data = await response.json();
-
-      if (response.status !== 200) {
-        titleInput.classList.add('invalid');
+      if (data.status === 400) {
         titleInput.setAttribute('aria-invalid', 'true');
+        titleInput.classList.add('invalid');
         titleLabel.classList.add('invalid');
         titleHint.textContent = data.message;
         e.target.querySelector('.invalid').focus();
         return;
       }
 
-      window.location.assign(`#${data.url}`);
+      window.location.assign(`#${data.project.url}`);
     } catch {
-      setStatus(500);
+      setSession({ status: 500, message: 'Server Error' });
     }
   };
 
@@ -77,5 +75,13 @@ export default function ProjectCreate({ setStatus }) {
   );
 }
 ProjectCreate.propTypes = {
-  setStatus: PropTypes.func.isRequired
+  session: PropTypes.shape({
+    status: PropTypes.number.isRequired,
+    message: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
+  setSession: PropTypes.func.isRequired
 };

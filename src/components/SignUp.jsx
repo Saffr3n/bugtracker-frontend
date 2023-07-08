@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as helpers from '../helpers';
 
-export default function SignUp({ setStatus }) {
+export default function SignUp({ setSession }) {
   const pageTitle = 'Sign Up';
 
   useEffect(() => helpers.updateTitle(pageTitle), []);
@@ -49,14 +49,13 @@ export default function SignUp({ setStatus }) {
         }),
         credentials: 'include'
       });
+      const data = await response.json();
 
-      if (response.status === 500) {
-        setStatus(500);
+      if (data.status === 500) {
+        setSession({ status: 500, message: 'Server Error' });
         return;
       }
-
-      if (response.status === 400) {
-        const data = await response.json();
+      if (data.status === 400) {
         const alert = e.target.querySelector('p[role="alert"]');
 
         if (data.message.includes('User')) {
@@ -71,8 +70,9 @@ export default function SignUp({ setStatus }) {
 
         errors.forEach((err) => {
           const source = err.split(' ')[0].toLowerCase();
-          inputs[source].classList.add('invalid');
+
           inputs[source].setAttribute('aria-invalid', 'true');
+          inputs[source].classList.add('invalid');
           labels[source].classList.add('invalid');
           hints[source].textContent = err;
         });
@@ -80,13 +80,12 @@ export default function SignUp({ setStatus }) {
         e.target.querySelector('.invalid').focus();
         return;
       }
-    } catch {
-      setStatus(500);
-      return;
-    }
 
-    setStatus(200);
-    window.location.assign('#/dashboard');
+      setSession(data);
+      window.location.assign('#/dashboard');
+    } catch {
+      setSession({ status: 500, message: 'Server Error' });
+    }
   };
 
   return (
@@ -132,5 +131,5 @@ export default function SignUp({ setStatus }) {
   );
 }
 SignUp.propTypes = {
-  setStatus: PropTypes.func.isRequired
+  setSession: PropTypes.func.isRequired
 };

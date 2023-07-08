@@ -32,8 +32,8 @@ export const onSearchInput = (e) => {
   }
 };
 
-export const onTableRowClick = (id) => {
-  window.location.assign(`#/${window.location.hash.split('/')[1]}/${id}`);
+export const onTableRowClick = (path, id) => {
+  window.location.assign(`#/${path}/${id}`);
 };
 
 const deactivateLinks = () => {

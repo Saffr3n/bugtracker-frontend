@@ -6,7 +6,7 @@ import Logo from '../assets/logo.svg';
 import SearchIcon from '../assets/icons/search.svg';
 import NotificationsIcon from '../assets/icons/notifications.svg';
 
-export default function Header({ status, setStatus }) {
+export default function Header({ session, setSession }) {
   const onSearchSubmit = (e) => {
     e.preventDefault();
 
@@ -50,17 +50,17 @@ export default function Header({ status, setStatus }) {
     document.removeEventListener('click', userMenuClickHandler);
 
     try {
-      await fetch(helpers.apiHost, {
+      const response = await fetch(helpers.apiHost, {
         method: 'DELETE',
         credentials: 'include'
       });
-    } catch {
-      setStatus(500);
-      return;
-    }
+      const data = await response.json();
 
-    setStatus(401);
-    window.location.assign('#/signin');
+      setSession(data);
+      window.location.assign('#/signin');
+    } catch {
+      setSession({ status: 500, message: 'Server Error' });
+    }
   };
 
   return (
@@ -70,7 +70,7 @@ export default function Header({ status, setStatus }) {
         <span>BugTracker</span>
       </div>
 
-      {status === 500 ? null : status !== 401 ? (
+      {session.status === 500 ? null : session.status !== 401 ? (
         <>
           <form onSubmit={onSearchSubmit} role="search" noValidate>
             <input type="search" placeholder="Search..." onFocus={helpers.onSearchFocus} onBlur={helpers.onSearchBlur} aria-label="Search" />
@@ -112,6 +112,13 @@ export default function Header({ status, setStatus }) {
   );
 }
 Header.propTypes = {
-  status: PropTypes.number.isRequired,
-  setStatus: PropTypes.func.isRequired
+  session: PropTypes.shape({
+    status: PropTypes.number.isRequired,
+    message: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired
+    })
+  }).isRequired,
+  setSession: PropTypes.func.isRequired
 };
