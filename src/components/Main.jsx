@@ -12,7 +12,7 @@ import ProjectCreate from './ProjectCreate';
 import Project from './Project';
 import Tickets from './Tickets';
 import TicketCreate from './TicketCreate';
-// import Ticket from './Ticket';
+import Ticket from './Ticket';
 
 export default function Main({ session, setSession }) {
   return (
@@ -32,7 +32,7 @@ export default function Main({ session, setSession }) {
 
               <Route path="/tickets" element={<Tickets session={session} setSession={setSession} />} />
               <Route path="/tickets/create" element={<TicketCreate session={session} setSession={setSession} />} />
-              {/* <Route path="/tickets/*" element={<Ticket setSession={setSession} />} /> */}
+              <Route path="/tickets/*" element={<Ticket session={session} setSession={setSession} />} />
 
               <Route path="/signout" element={<h1>Signing out...</h1>} />
             </>
