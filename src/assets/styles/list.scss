@@ -14,6 +14,7 @@
 
   & p {
     font-style: italic;
+    text-align: center;
   }
 
   & small {
@@ -51,5 +52,9 @@
       background-color: $pale-teal;
       cursor: pointer;
     }
+  }
+
+  & hr {
+    margin: 8px 0;
   }
 }

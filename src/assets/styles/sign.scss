@@ -18,6 +18,10 @@
     background: $pale-rose;
   }
 
+  & label {
+    width: 100%;
+  }
+
   & label.invalid {
     color: $milano-red;
   }

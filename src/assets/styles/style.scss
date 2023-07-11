@@ -45,7 +45,8 @@ body {
 }
 
 input,
-textarea {
+textarea,
+select {
   font-family: inherit;
   padding: 0 4px;
   color: $dark-teal;
