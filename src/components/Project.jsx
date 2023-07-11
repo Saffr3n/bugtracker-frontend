@@ -48,6 +48,7 @@ export default function Project({ session, setSession }) {
         </span>
         <span>Created: {new Date(project.created).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</span>
       </small>
+      {session.user.role === 'Admin' || session.user._id === project.manager._id ? <button type="button">Edit</button> : null}
       <hr style={{ alignSelf: 'stretch' }} />
       <h2>Tickets</h2>
       {project.tickets.length ? (
@@ -79,33 +80,37 @@ export default function Project({ session, setSession }) {
       ) : (
         <p>There are no tickets yet...</p>
       )}
+      <button type="button" onClick={() => window.location.assign(`#/tickets/create?p=${project._id}`)}>
+        New Ticket
+      </button>
       <hr style={{ alignSelf: 'stretch' }} />
       <h2>Users</h2>
-      {project.users.length ? (
-        <>
-          <input type="search" placeholder="Search..." onInput={helpers.onSearchInput} onFocus={helpers.onSearchFocus} onBlur={helpers.onSearchBlur} aria-label="Search in table" />
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Registered</th>
-              </tr>
-            </thead>
-            <tbody>
-              {project.users.map((user) => (
+      <input type="search" placeholder="Search..." onInput={helpers.onSearchInput} onFocus={helpers.onSearchFocus} onBlur={helpers.onSearchBlur} aria-label="Search in table" />
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Registered</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr key={project.manager._id} onClick={() => helpers.onTableRowClick('users', project.manager._id)} tabIndex={0} aria-label={`User: ${project.manager.firstName} ${project.manager.lastName}, role: Project Manager, click for details`}>
+            <td>{`${project.manager.firstName} ${project.manager.lastName}`}</td>
+            <td>Project Manager</td>
+            <td>{new Date(project.manager.registered).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</td>
+          </tr>
+          {project.users.length
+            ? project.users.map((user) => (
                 <tr key={user._id} onClick={() => helpers.onTableRowClick('users', user._id)} tabIndex={0} aria-label={`User: ${user.firstName} ${user.lastName}, role: ${user.role}, click for details`}>
                   <td>{`${user.firstName} ${user.lastName}`}</td>
                   <td>{user.role}</td>
-                  <td>{user.registered}</td>
+                  <td>{new Date(user.registered).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
-      ) : (
-        <p>There are no users yet...</p>
-      )}
+              ))
+            : null}
+        </tbody>
+      </table>
     </div>
   ) : null;
 }
