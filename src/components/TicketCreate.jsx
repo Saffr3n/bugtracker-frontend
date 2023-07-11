@@ -7,9 +7,13 @@ export default function TicketCreate({ session, setSession }) {
   const pageTitle = 'New Ticket';
 
   useEffect(() => {
+    helpers.updateTitle(pageTitle);
+
+    const [, projectId] = window.location.hash.split('=');
+
     (async () => {
       try {
-        const response = await fetch(`${helpers.apiHost}/projects`, { credentials: 'include' });
+        const response = await fetch(`${helpers.apiHost}/projects/${projectId || ''}`, { credentials: 'include' });
         const data = await response.json();
 
         setSession({ ...data, user: session.user });
@@ -19,9 +23,12 @@ export default function TicketCreate({ session, setSession }) {
           window.location.assign('#/signin');
           return;
         }
+        if (data.status === 400) {
+          window.location.assign('#/404');
+          return;
+        }
 
-        setProjects(data.projects);
-        helpers.updateTitle(pageTitle);
+        setProjects(data.project ? [data.project] : data.projects);
       } catch {
         setSession({ status: 500, message: 'Server Error' });
       }
@@ -94,33 +101,46 @@ export default function TicketCreate({ session, setSession }) {
   return projects !== null ? (
     <div className="sign">
       <h1>{pageTitle}</h1>
+      {projects.length !== 0 ? (
+        <form onSubmit={onTicketCreate} noValidate>
+          <label htmlFor="project">
+            Project
+            <select id="project" defaultValue={projects.length === 1 ? projects[0]._id : ''} disabled={projects.length === 1} aria-required aria-invalid="false" aria-describedby="project-hint">
+              {projects.length === 1 ? (
+                <option key={projects[0]._id} value={projects[0]._id}>
+                  {projects[0].title}
+                </option>
+              ) : (
+                <>
+                  <option key="0" value="" disabled hidden aria-hidden="true" />
+                  {projects.map((project) => (
+                    <option key={project._id} value={project._id}>
+                      {project.title}
+                    </option>
+                  ))}
+                </>
+              )}
+            </select>
+          </label>
+          <span className="hint" id="project-hint" />
 
-      <form onSubmit={onTicketCreate} noValidate>
-        <label htmlFor="project">
-          Project
-          <select id="project" aria-required aria-invalid="false" aria-describedby="project-hint">
-            <option hidden disabled selected value="" aria-hidden="true" />
-            {projects.map((project) => (
-              <option value={project._id}>{project.title}</option>
-            ))}
-          </select>
-        </label>
-        <span className="hint" id="project-hint" />
+          <label htmlFor="title">
+            Title
+            <input type="text" id="title" aria-required aria-invalid="false" aria-describedby="title-hint" />
+          </label>
+          <span className="hint" id="title-hint" />
 
-        <label htmlFor="title">
-          Title
-          <input type="text" id="title" aria-required aria-invalid="false" aria-describedby="title-hint" />
-        </label>
-        <span className="hint" id="title-hint" />
+          <label htmlFor="description">
+            Description
+            <textarea cols="21" rows="4" id="description" aria-required aria-invalid="false" aria-describedby="description-hint" />
+          </label>
+          <span className="hint" id="description-hint" />
 
-        <label htmlFor="description">
-          Description
-          <textarea cols="21" rows="4" id="description" aria-required aria-invalid="false" aria-describedby="description-hint" />
-        </label>
-        <span className="hint" id="description-hint" />
-
-        <button type="submit">Submit</button>
-      </form>
+          <button type="submit">Submit</button>
+        </form>
+      ) : (
+        <p>Cannot create a ticket, since there are no projects yet.</p>
+      )}
     </div>
   ) : null;
 }
