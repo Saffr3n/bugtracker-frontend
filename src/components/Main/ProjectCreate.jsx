@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import * as helpers from '../../helpers';
+import { apiHost, updateTitle } from '../../helpers';
 
 export default function ProjectCreate({ session, setSession }) {
   const pageTitle = 'New Project';
 
-  useEffect(() => helpers.updateTitle(pageTitle), []);
+  useEffect(() => updateTitle(pageTitle), []);
 
   const onProjectCreate = async (e) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ export default function ProjectCreate({ session, setSession }) {
     titleHint.textContent = '';
 
     try {
-      const response = await fetch(`${helpers.apiHost}/projects`, {
+      const response = await fetch(`${apiHost}/projects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

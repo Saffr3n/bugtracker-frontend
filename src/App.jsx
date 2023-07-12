@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter } from 'react-router-dom';
-import * as helpers from './helpers';
+import { apiHost, onHashChange } from './helpers';
 import Header from './components/Header';
 import Nav from './components/Nav';
 import Main from './components/Main';
@@ -13,26 +13,25 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(helpers.apiHost, { credentials: 'include' });
+        const response = await fetch(apiHost, { credentials: 'include' });
         const data = await response.json();
 
         setSession(data);
-
         if (data.status === 500) return;
 
         if (!window.location.hash) {
           window.location.assign(data.status === 200 ? '#/dashboard' : '#/signin');
         } else {
-          setTimeout(() => helpers.onHashChange());
+          setTimeout(() => onHashChange());
         }
 
-        window.addEventListener('hashchange', helpers.onHashChange);
+        window.addEventListener('hashchange', onHashChange);
       } catch {
         setSession({ status: 500, message: 'Server Error' });
       }
     })();
 
-    return () => window.removeEventListener('hashchange', helpers.onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
   return session !== null ? (

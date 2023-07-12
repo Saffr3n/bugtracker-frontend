@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import * as helpers from '../../helpers';
+import { updateTitle } from '../../helpers';
 
 export default function PageNotFound() {
   const pageTitle = 'Page Not Found';
 
-  useEffect(() => helpers.updateTitle(pageTitle), []);
+  useEffect(() => updateTitle(pageTitle), []);
 
   return (
     <>

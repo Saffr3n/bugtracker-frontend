@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import * as helpers from '../../helpers';
+import { updateTitle } from '../../helpers';
 
 export default function Dashboard() {
   const pageTitle = 'Dashboard';
 
-  useEffect(() => helpers.updateTitle(pageTitle), []);
+  useEffect(() => updateTitle(pageTitle), []);
 
   return (
     <>

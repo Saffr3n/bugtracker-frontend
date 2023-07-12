@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import * as helpers from '../../helpers';
+import { apiHost, updateTitle, onSearchFocus, onSearchBlur, onSearchInput, onTableRowClick } from '../../helpers';
 
 export default function Project({ session, setSession }) {
   const [project, setProject] = useState(null);
@@ -12,7 +12,7 @@ export default function Project({ session, setSession }) {
       const id = window.location.hash.split('/')[2];
 
       try {
-        const response = await fetch(`${helpers.apiHost}/projects/${id}`, { credentials: 'include' });
+        const response = await fetch(`${apiHost}/projects/${id}`, { credentials: 'include' });
         const data = await response.json();
 
         setSession({ ...data, user: session.user });
@@ -31,7 +31,7 @@ export default function Project({ session, setSession }) {
 
         setProject(project);
         pageTitle = project.title;
-        helpers.updateTitle(pageTitle);
+        updateTitle(pageTitle);
       } catch {
         setSession({ status: 500, message: 'Server Error' });
       }
@@ -59,7 +59,7 @@ export default function Project({ session, setSession }) {
       <h2>Tickets</h2>
       {project.tickets.length ? (
         <>
-          <input type="search" placeholder="Search..." onInput={helpers.onSearchInput} onFocus={helpers.onSearchFocus} onBlur={helpers.onSearchBlur} aria-label="Search in table" />
+          <input type="search" placeholder="Search..." onInput={onSearchInput} onFocus={onSearchFocus} onBlur={onSearchBlur} aria-label="Search in table" />
           <table>
             <thead>
               <tr>
@@ -72,7 +72,7 @@ export default function Project({ session, setSession }) {
             </thead>
             <tbody>
               {project.tickets.map((ticket) => (
-                <tr key={ticket._id} onClick={() => helpers.onTableRowClick('tickets', ticket._id)} tabIndex={0} aria-label={`Ticket: "${ticket.title}", status: ${ticket.status}, submitted by ${ticket.submitter.firstName} ${ticket.submitter.lastName}, click for details`}>
+                <tr key={ticket._id} onClick={() => onTableRowClick('tickets', ticket._id)} tabIndex={0} aria-label={`Ticket: "${ticket.title}", status: ${ticket.status}, submitted by ${ticket.submitter.firstName} ${ticket.submitter.lastName}, click for details`}>
                   <td>{ticket.title}</td>
                   <td>{ticket.description}</td>
                   <td style={{ color: ticket.status ? 'red' : 'green' }}>{ticket.status ? 'open' : 'closed'}</td>
@@ -91,7 +91,7 @@ export default function Project({ session, setSession }) {
       </button>
       <hr style={{ alignSelf: 'stretch' }} />
       <h2>Users</h2>
-      <input type="search" placeholder="Search..." onInput={helpers.onSearchInput} onFocus={helpers.onSearchFocus} onBlur={helpers.onSearchBlur} aria-label="Search in table" />
+      <input type="search" placeholder="Search..." onInput={onSearchInput} onFocus={onSearchFocus} onBlur={onSearchBlur} aria-label="Search in table" />
       <table>
         <thead>
           <tr>
@@ -101,14 +101,14 @@ export default function Project({ session, setSession }) {
           </tr>
         </thead>
         <tbody>
-          <tr key={project.manager._id} onClick={() => helpers.onTableRowClick('users', project.manager._id)} tabIndex={0} aria-label={`User: ${project.manager.firstName} ${project.manager.lastName}, role: Project Manager, click for details`}>
+          <tr key={project.manager._id} onClick={() => onTableRowClick('users', project.manager._id)} tabIndex={0} aria-label={`User: ${project.manager.firstName} ${project.manager.lastName}, role: Project Manager, click for details`}>
             <td>{`${project.manager.firstName} ${project.manager.lastName}`}</td>
             <td>Project Manager</td>
             <td>{new Date(project.manager.registered).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</td>
           </tr>
           {project.users.length
             ? project.users.map((user) => (
-                <tr key={user._id} onClick={() => helpers.onTableRowClick('users', user._id)} tabIndex={0} aria-label={`User: ${user.firstName} ${user.lastName}, role: ${user.role}, click for details`}>
+                <tr key={user._id} onClick={() => onTableRowClick('users', user._id)} tabIndex={0} aria-label={`User: ${user.firstName} ${user.lastName}, role: ${user.role}, click for details`}>
                   <td>{`${user.firstName} ${user.lastName}`}</td>
                   <td>{user.role}</td>
                   <td>{new Date(user.registered).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</td>

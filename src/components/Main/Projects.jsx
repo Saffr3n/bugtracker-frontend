@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import * as helpers from '../../helpers';
+import { apiHost, updateTitle, onSearchFocus, onSearchBlur, onSearchInput, onTableRowClick } from '../../helpers';
 
 export default function Projects({ session, setSession }) {
   const [projects, setProjects] = useState(null);
   const pageTitle = 'Projects';
 
   useEffect(() => {
+    updateTitle(pageTitle);
+
     (async () => {
       try {
-        const response = await fetch(`${helpers.apiHost}/projects`, { credentials: 'include' });
+        const response = await fetch(`${apiHost}/projects`, { credentials: 'include' });
         const data = await response.json();
 
         setSession({ ...data, user: session.user });
@@ -21,7 +23,6 @@ export default function Projects({ session, setSession }) {
         }
 
         setProjects(data.projects);
-        helpers.updateTitle(pageTitle);
       } catch {
         setSession({ status: 500, message: 'Server Error' });
       }
@@ -33,7 +34,7 @@ export default function Projects({ session, setSession }) {
       <h1>{pageTitle}</h1>
       {projects.length ? (
         <>
-          <input type="search" placeholder="Search..." onInput={helpers.onSearchInput} onFocus={helpers.onSearchFocus} onBlur={helpers.onSearchBlur} aria-label="Search in table" />
+          <input type="search" placeholder="Search..." onInput={onSearchInput} onFocus={onSearchFocus} onBlur={onSearchBlur} aria-label="Search in table" />
           <table>
             <thead>
               <tr>
@@ -45,7 +46,7 @@ export default function Projects({ session, setSession }) {
             </thead>
             <tbody>
               {projects.map((project) => (
-                <tr key={project._id} onClick={() => helpers.onTableRowClick('projects', project._id)} tabIndex={0} aria-label={`"${project.title}", managed by ${project.manager.firstName} ${project.manager.lastName}, click for details`}>
+                <tr key={project._id} onClick={() => onTableRowClick('projects', project._id)} tabIndex={0} aria-label={`"${project.title}", managed by ${project.manager.firstName} ${project.manager.lastName}, click for details`}>
                   <td>{project.title}</td>
                   <td>{project.description}</td>
                   <td>{`${project.manager.firstName} ${project.manager.lastName}`}</td>

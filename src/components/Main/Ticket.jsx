@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import * as helpers from '../../helpers';
+import { apiHost, updateTitle, onSearchFocus, onSearchBlur, onSearchInput, onTableRowClick } from '../../helpers';
 
 export default function Ticket({ session, setSession }) {
   const [ticket, setTicket] = useState(null);
@@ -12,7 +12,7 @@ export default function Ticket({ session, setSession }) {
       const id = window.location.hash.split('/')[2];
 
       try {
-        const response = await fetch(`${helpers.apiHost}/tickets/${id}`, { credentials: 'include' });
+        const response = await fetch(`${apiHost}/tickets/${id}`, { credentials: 'include' });
         const data = await response.json();
 
         setSession({ ...data, user: session.user });
@@ -31,7 +31,7 @@ export default function Ticket({ session, setSession }) {
 
         setTicket(ticket);
         pageTitle = ticket.title;
-        helpers.updateTitle(pageTitle);
+        updateTitle(pageTitle);
       } catch {
         setSession({ status: 500, message: 'Server Error' });
       }
@@ -56,7 +56,7 @@ export default function Ticket({ session, setSession }) {
       <h2>Developers</h2>
       {ticket.devs.length ? (
         <>
-          <input type="search" placeholder="Search..." onInput={helpers.onSearchInput} onFocus={helpers.onSearchFocus} onBlur={helpers.onSearchBlur} aria-label="Search in table" />
+          <input type="search" placeholder="Search..." onInput={onSearchInput} onFocus={onSearchFocus} onBlur={onSearchBlur} aria-label="Search in table" />
           <table>
             <thead>
               <tr>
@@ -66,7 +66,7 @@ export default function Ticket({ session, setSession }) {
             </thead>
             <tbody>
               {ticket.devs.map((dev) => (
-                <tr key={dev._id} onClick={() => helpers.onTableRowClick('users', dev._id)} tabIndex={0} aria-label={`Developer: ${dev.firstName} ${dev.lastName}, click for details`}>
+                <tr key={dev._id} onClick={() => onTableRowClick('users', dev._id)} tabIndex={0} aria-label={`Developer: ${dev.firstName} ${dev.lastName}, click for details`}>
                   <td>{`${dev.firstName} ${dev.lastName}`}</td>
                   <td>{new Date(dev.registered).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</td>
                 </tr>

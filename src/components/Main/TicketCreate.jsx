@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import * as helpers from '../../helpers';
+import { apiHost, updateTitle } from '../../helpers';
 
 export default function TicketCreate({ session, setSession }) {
   const [projects, setProjects] = useState(null);
   const pageTitle = 'New Ticket';
 
   useEffect(() => {
-    helpers.updateTitle(pageTitle);
+    updateTitle(pageTitle);
 
     const [, projectId] = window.location.hash.split('=');
 
     (async () => {
       try {
-        const response = await fetch(`${helpers.apiHost}/projects/${projectId || ''}`, { credentials: 'include' });
+        const response = await fetch(`${apiHost}/projects/${projectId || ''}`, { credentials: 'include' });
         const data = await response.json();
 
         setSession({ ...data, user: session.user });
@@ -57,7 +57,7 @@ export default function TicketCreate({ session, setSession }) {
     }
 
     try {
-      const response = await fetch(`${helpers.apiHost}/tickets`, {
+      const response = await fetch(`${apiHost}/tickets`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
