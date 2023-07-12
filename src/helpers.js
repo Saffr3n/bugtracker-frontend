@@ -32,6 +32,19 @@ export const onSearchInput = (e) => {
   }
 };
 
+export const onUserMenuClick = (e) => {
+  const userMenuIsClicked = (target) => {
+    if (!target || !target.classList) return false;
+    if (/user-(btn|menu)/.test(target.className)) return true;
+    return userMenuIsClicked(target.parentNode);
+  };
+  if (userMenuIsClicked(e.target)) return;
+
+  document.querySelector('.user-btn').setAttribute('aria-expanded', false);
+  document.querySelector('.user-menu').style.display = 'none';
+  document.removeEventListener('click', onUserMenuClick);
+};
+
 export const onTableRowClick = (path, id) => {
   window.location.assign(`#/${path}/${id}`);
 };

@@ -10,24 +10,27 @@ header {
   justify-content: space-between;
   align-items: center;
 
-  & > * {
-    display: inherit;
-    align-items: inherit;
+  & .logo,
+  & .search-bar,
+  & .user-bar,
+  & .link-bar {
+    display: flex;
+    align-items: center;
     gap: 8px;
   }
 
-  & span {
+  & .logo span {
     font-family: SyneMono, monospace;
     font-size: 2rem;
     text-decoration: underline;
     cursor: default;
   }
 
-  & input:focus {
+  & .search-bar input:focus {
     outline-color: $light-teal;
   }
 
-  & .user {
+  & .user-bar .user-btn {
     width: 40px;
     height: 40px;
     outline: 2px solid $light-teal;
@@ -43,13 +46,13 @@ header {
     }
   }
 
-  & .user-menu {
+  & .user-bar .user-menu {
     display: none;
     position: absolute;
     top: 64px;
     padding: 8px;
     border: 1px solid;
-    background: white;
+    background-color: white;
     color: $dark-teal;
 
     & ul {
