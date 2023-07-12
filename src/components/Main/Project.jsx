@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import * as helpers from '../helpers';
+import * as helpers from '../../helpers';
 
 export default function Project({ session, setSession }) {
   const [project, setProject] = useState(null);
@@ -38,6 +38,8 @@ export default function Project({ session, setSession }) {
     })();
   }, []);
 
+  const onProjectEdit = () => {};
+
   return project ? (
     <div className="list">
       <h1>{project.title}</h1>
@@ -48,7 +50,11 @@ export default function Project({ session, setSession }) {
         </span>
         <span>Created: {new Date(project.created).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</span>
       </small>
-      {session.user.role === 'Admin' || session.user._id === project.manager._id ? <button type="button">Edit</button> : null}
+      {session.user.role === 'Admin' || session.user._id === project.manager._id ? (
+        <button type="button" onClick={onProjectEdit}>
+          Edit
+        </button>
+      ) : null}
       <hr style={{ alignSelf: 'stretch' }} />
       <h2>Tickets</h2>
       {project.tickets.length ? (

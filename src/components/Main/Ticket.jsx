@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import * as helpers from '../helpers';
+import * as helpers from '../../helpers';
 
 export default function Ticket({ session, setSession }) {
   const [ticket, setTicket] = useState(null);

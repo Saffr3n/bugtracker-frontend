@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import * as helpers from '../helpers';
+import * as helpers from '../../helpers';
 
 export default function ServerError() {
   const pageTitle = 'Server Error';

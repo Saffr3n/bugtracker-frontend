@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import * as helpers from '../helpers';
+import * as helpers from '../../helpers';
 
 export default function Tickets({ session, setSession }) {
   const [tickets, setTickets] = useState(null);

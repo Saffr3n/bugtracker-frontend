@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import * as helpers from '../helpers';
+import * as helpers from '../../helpers';
 
 export default function SignUp({ setSession }) {
   const pageTitle = 'Sign Up';
