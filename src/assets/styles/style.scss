@@ -56,6 +56,13 @@ select {
   outline-offset: 1px;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
 button {
   cursor: pointer;
 
@@ -130,4 +137,12 @@ nav a:active svg,
 nav a.active svg,
 footer a:active svg {
   fill: $pale-teal;
+}
+
+.dialog {
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #00000077;
 }
