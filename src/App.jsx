@@ -38,7 +38,7 @@ export default function App() {
   return session !== null ? (
     <HashRouter>
       <Header session={session} setSession={setSession} />
-      {session.status !== 500 ? <Nav session={session} /> : null}
+      <Nav session={session} />
       <Main session={session} setSession={setSession} />
       <Footer />
     </HashRouter>
